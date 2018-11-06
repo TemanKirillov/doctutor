@@ -6,7 +6,18 @@
 class I:
     import inspect
     from dispatcher import Dispatcher
+    import re
 
+
+def to_short(qualname):
+    ''' Преобразовать квалифицированное имя в короткое.''' 
+    short = qualname.split('.')[-1]
+    return short
+
+def any_fullmatch(string, *patterns):
+    ''' Вернёт True, если совпало хотя бы с одним из шаблонов полностью.'''
+    gen = (I.re.fullmatch(pattern, string) for pattern in patterns)
+    return any(gen)
 
 def isdescriptor(obj):
     ''' Реализован ли в объекте протокол дескриптора?'''

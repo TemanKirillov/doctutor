@@ -4,6 +4,7 @@ class I:
     'imported objects'
     import unittest
     from tree import ownattr
+    from tree import any_fullmatch
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -46,6 +47,15 @@ class Test_ownattr(I.unittest.TestCase):
         self.assertEqual(len(lst), 20)
         print('Вывод данных по модулю:')
         [print(i[0]) for i in lst]
+
+class Test_any_fullmatch(I.unittest.TestCase):
+    
+    def test_all(self):
+        patterns = ['a', '\d\d', '.+__']
+        self.assertTrue(I.any_fullmatch('a', *patterns))
+        self.assertTrue(I.any_fullmatch('23', *patterns))
+        self.assertFalse(I.any_fullmatch('b', *patterns))
+        self.assertFalse(I.any_fullmatch('235', *patterns))
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
