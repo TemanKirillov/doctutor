@@ -43,7 +43,7 @@ class Test_ownattr(I.unittest.TestCase):
     def test_module(self):
         import string as inst
         lst = list(I.ownattr(inst))
-        self.assertEqual(len(lst), 25)
+        self.assertEqual(len(lst), 20)
         print('Вывод данных по модулю:')
         [print(i[0]) for i in lst]
 

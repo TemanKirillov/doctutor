@@ -5,6 +5,7 @@
 
 class I:
     import inspect
+    from dispatcher import Dispatcher
 
 
 def isdescriptor(obj):
@@ -13,7 +14,10 @@ def isdescriptor(obj):
         return True
     return False
 
-def ownattr(obj):
+ownattr = I.Dispatcher() #Диспетчер для извлечения атрибутов из объекта
+
+@ownattr.bind_default
+def ownattr_object(obj):
     ''' Генераторная функция. Производит атрибуты объекта в стиле inspect.getmembers, которые принадлежат самому объекту. '''
 
     memobj = I.inspect.getmembers(obj)
@@ -29,6 +33,14 @@ def ownattr(obj):
                 yield namemem, objmem
         else:
             yield namemem, objmem
+
+@ownattr.bind(I.inspect.ismodule)
+def ownattr_module(module):
+    ''' Генераторная функция. Производит атрибуты модуля, исключая импортированные '''
+    for name, obj in ownattr_object(module):
+        modattr = I.inspect.getmodule(obj)
+        if modattr is module or modattr is None:
+            yield name, obj
 
 if __name__ == '__main__':
     pass
