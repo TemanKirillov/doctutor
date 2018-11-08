@@ -59,5 +59,15 @@ def ownattr(obj):
         else:
             yield namemem, objmem
 
+def getmembers(obj, predicate):
+    ''' Генератор. Реализует другой тип предиката для inspect.getmembers. Рекурсивно выталкивает кортежи (имя, объект) из объектов и его атрибутов.
+        predicate - функция с сигнатурой (obj, nameattr): принимает объект и имя его атрибута. Возвращает True, если атрибут должен быть вытолкнут. ''' 
+
+    members = I.inspect.getmembers(obj)
+
+    for namemem, objmem in members:
+        if predicate(obj, namemem):
+            yield namemem, objmem
+
 if __name__ == '__main__':
     pass

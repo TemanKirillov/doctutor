@@ -5,6 +5,9 @@ class I:
     import unittest
     from tree import ownattr
     from tree import any_fullmatch
+    from tree import getmembers
+    from tree import isimp
+    from tree import isinparent
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -56,6 +59,14 @@ class Test_any_fullmatch(I.unittest.TestCase):
         self.assertTrue(I.any_fullmatch('23', *patterns))
         self.assertFalse(I.any_fullmatch('b', *patterns))
         self.assertFalse(I.any_fullmatch('235', *patterns))
+
+class Test_getmembers(I.unittest.TestCase):
+    
+    def test_isimp(self):
+        import string
+        print('Вывод импортированных объектов')
+        gen = I.getmembers(string, I.isimp) 
+        [print(i) for i in list(gen)]
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
