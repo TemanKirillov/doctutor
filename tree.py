@@ -26,13 +26,25 @@ def isinparent(obj, nameattr):
             return True
     return False
 
+def isimp(obj, nameattr):
+    ''' Импортирован ли атрибут?
+        Принимает объект и имя его атрибута'''
+    objattr = getattr(obj, nameattr)
+    module = I.inspect.getmodule(obj)
+    modattr = I.inspect.getmodule(objattr)
+    if modattr is module or modattr is None:
+        return False
+    else:
+        return True
+    
+
 def ownattr(obj):
     ''' Генераторная функция. Производит атрибуты объекта в стиле inspect.getmembers, которые принадлежат самому объекту. '''
 
     memobj = I.inspect.getmembers(obj)
 
     for namemem, objmem in memobj:
-        if isinparent(obj, namemem):
+        if isinparent(obj, namemem) or isimp(obj, namemem):
             pass
         else:
             yield namemem, objmem

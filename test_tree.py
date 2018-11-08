@@ -20,7 +20,7 @@ class Test_ownattr(I.unittest.TestCase):
             ''' test function'''
         test.attr = 8
         lst = list(I.ownattr(test))
-        self.assertEqual(len(lst), 7)
+        self.assertEqual(len(lst), 6)
 
     def test_class(self):
 
@@ -43,7 +43,7 @@ class Test_ownattr(I.unittest.TestCase):
     def test_module(self):
         import string as inst
         lst = list(I.ownattr(inst))
-        self.assertEqual(len(lst), 25)
+        self.assertEqual(len(lst), 20)
         print('Вывод данных по модулю:')
         [print(i[0]) for i in lst]
 
