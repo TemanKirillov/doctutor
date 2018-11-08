@@ -5,9 +5,7 @@
 
 class I:
     import inspect
-    from dispatcher import Dispatcher
     import re
-
 
 def to_short(qualname):
     ''' Преобразовать квалифицированное имя в короткое.''' 
@@ -25,33 +23,41 @@ def isdescriptor(obj):
         return True
     return False
 
-ownattr = I.Dispatcher() #Диспетчер для извлечения атрибутов из объекта
+def isinparent(obj, nameattr):
+    ''' Наследован ли атрибут от родителя.
+        Принимает объект и имя его атрибута'''
+    cls = obj.__class__
+    objattr = getattr(obj, nameattr)
+    memcls = dict(I.inspect.getmembers(cls))
 
-@ownattr.bind_default
-def ownattr_object(obj):
+    if nameattr in memcls:
+        parent_obj = memcls[nameattr]
+        if (parent_obj == objattr or isdescriptor(parent_obj)):
+            return True
+    return False
+
+def isimp(obj, nameattr):
+    ''' Импортирован ли атрибут?
+        Принимает объект и имя его атрибута'''
+    objattr = getattr(obj, nameattr)
+    module = I.inspect.getmodule(obj)
+    modattr = I.inspect.getmodule(objattr)
+    if modattr is module or modattr is None:
+        return False
+    else:
+        return True
+    
+
+def ownattr(obj):
     ''' Генераторная функция. Производит атрибуты объекта в стиле inspect.getmembers, которые принадлежат самому объекту. '''
 
     memobj = I.inspect.getmembers(obj)
-    cls = obj.__class__
-    memcls = dict(I.inspect.getmembers(cls))
 
     for namemem, objmem in memobj:
-        if namemem in memcls:
-            parent_obj = memcls[namemem]
-            if (parent_obj == objmem or isdescriptor(parent_obj)):
-                pass
-            else:
-                yield namemem, objmem
+        if isinparent(obj, namemem) or isimp(obj, namemem):
+            pass
         else:
             yield namemem, objmem
-
-@ownattr.bind(I.inspect.ismodule)
-def ownattr_module(module):
-    ''' Генераторная функция. Производит атрибуты модуля, исключая импортированные '''
-    for name, obj in ownattr_object(module):
-        modattr = I.inspect.getmodule(obj)
-        if modattr is module or modattr is None:
-            yield name, obj
 
 if __name__ == '__main__':
     pass
