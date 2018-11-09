@@ -8,11 +8,13 @@ class I:
     from tree import getmembers
     from tree import isimp
     from tree import isinparent
+    from tree import getfunc_match_sn
+    from tree import getfunc_match_qn
 
 class Test_ownattr(I.unittest.TestCase):
 
     def test_builtin_func(self):
-        gen = I.ownattr(hex)
+        gen = I.ownattr('hex', hex)
         lst = list(gen)
         self.assertEqual(len(lst), 4)
         print('Вывод данных по встроенной функции:')
@@ -23,7 +25,7 @@ class Test_ownattr(I.unittest.TestCase):
         def test(a,b):
             ''' test function'''
         test.attr = 8
-        lst = list(I.ownattr(test))
+        lst = list(I.ownattr('test', test))
         self.assertEqual(len(lst), 6)
 
     def test_class(self):
@@ -36,17 +38,17 @@ class Test_ownattr(I.unittest.TestCase):
             def method(self):
                 pass
 
-        lst = list(I.ownattr(Test))
+        lst = list(I.ownattr('Test', Test))
         self.assertEqual(len(lst), 9)
 
         inst = Test()
         inst.attr = 'test attr'
-        lst = list(I.ownattr(inst))
+        lst = list(I.ownattr('Test', inst))
         self.assertEqual(len(lst), 4)
 
     def test_module(self):
         import string as inst
-        lst = list(I.ownattr(inst))
+        lst = list(I.ownattr('string', inst))
         self.assertEqual(len(lst), 22)
         print('Вывод данных по модулю:')
         [print(i[0]) for i in lst]
@@ -65,8 +67,42 @@ class Test_getmembers(I.unittest.TestCase):
     def test_isimp(self):
         import string
         print('Вывод импортированных объектов')
-        gen = I.getmembers(string, I.isimp) 
+        gen = I.getmembers('string', string, I.isimp) 
         [print(i) for i in list(gen)]
+
+class Test_getfunc_match(I.unittest.TestCase):
+    
+    def test_sn(self):
+        def f1():
+            pass
+        f1.a25 = 3
+        func = I.getfunc_match_sn(r'a\d\d', r'__\w\w')
+        self.assertTrue(func('f1', f1, 'a25'))
+        self.assertFalse(func('f1', f1, 'abc'))
+        self.assertTrue(func('f1', f1, '__ab'))
+        self.assertFalse(func('f1', f1, '__ab__'))
+
+    def test_sn_getmembers(self):
+        def f1():
+            pass
+        f1.a25 = 3
+        f1.abc = 3
+        f1.__ab = 3
+        f1.__ab__ = 3
+        func = I.getfunc_match_sn(r'a\d\d', r'__\w\w')
+        gen = I.getmembers('f1', f1, func)
+        [print(i) for i in list(gen)]
+
+    def test_qn(self):
+        def f1():
+            pass
+        f1.a25 = 3
+        func = I.getfunc_match_qn(r'f1[.]a\d\d', r'f2[.]__\w\w')
+        self.assertTrue(func('f1', f1, 'a25'))
+        self.assertFalse(func('f1', f1, 'abc'))
+        self.assertFalse(func('f1', f1, '__ab'))
+        self.assertTrue(func('f2', f1, '__ab'))
+
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
