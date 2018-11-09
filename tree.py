@@ -45,7 +45,10 @@ def isimp(obj, nameattr):
     if modattr is module or modattr is None:
         return False
     else:
-        return True
+        if I.inspect.isroutine(objattr) or I.inspect.isclass(objattr) or I.inspect.ismodule(objattr):
+            return True
+        else:
+            return False
     
 
 def ownattr(obj):
