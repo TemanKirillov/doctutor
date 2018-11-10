@@ -9,6 +9,8 @@ class I:
     from tree import isimp
     from tree import isinparent
     from tree import ContextPatterns
+    from tree import getmembers_recursive
+    from tree import isdunder
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -103,6 +105,17 @@ class Test_ContextPatterns(I.unittest.TestCase):
             self.assertFalse(func('f1', f1, 'abc'))
             self.assertFalse(func('f1', f1, '__ab'))
             self.assertTrue(func('f2', f1, '__ab'))
+
+class Test_getmembers_recursive(I.unittest.TestCase):
+    
+    def test_isimp(self):
+        import string
+        print('Вывод импортированных объектов рекурсивно')
+        def temp(name, obj, nameattr): #чтобы избежать зацикливания на внутренних атрибутах
+            return I.isimp(name, obj, nameattr) and not I.isdunder(name, obj, nameattr)
+        gen = I.getmembers_recursive('string', string, temp ) 
+        [print(i) for i in list(gen)]
+
 
 
 if __name__ == '__main__':

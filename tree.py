@@ -8,6 +8,20 @@ class I:
     import re
     from contextlib import AbstractContextManager
 
+class AttributeException:
+    'Класс для представления атрибута, обращаясь к которому возникает исключение'
+    def __init__(self, exc):
+        self.exc = exc
+    def __repr__(self):
+        namecls = self.__class__.__name__
+        return '{cls}({exc})'.format(namecls,self.exc) 
+    @classmethod
+    def make(cls, obj, nameattr):
+        try:
+            objattr = getattr(obj, nameattr)
+        except Exception as e:
+            return cls(e)
+
 def to_short(qualname):
     ''' Преобразовать квалифицированное имя в короткое.''' 
     short = qualname.split('.')[-1]
@@ -36,12 +50,19 @@ class ContextPatterns(I.AbstractContextManager):
 
 def getmembers_recursive(name, obj, predicate):
     ''' Генераторная функция. Реализует рекурсивный обход атрибутов объекта. '''
+    for nameattr, objattr in getmembers(name, obj, predicate):
+        qualname= '.'.join([name, nameattr])
+        yield qualname, objattr
+        yield from getmembers_recursive(qualname, objattr, predicate)
 
 def isdescriptor(obj):
     ''' Реализован ли в объекте протокол дескриптора?'''
     if hasattr(obj, '__get__') or hasattr(obj, '__set__'):
         return True
     return False
+
+def isdunder(name, obj, nameattr):
+    return any_fullmatch(nameattr, r'__\w+__')
 
 def isinparent(name, obj, nameattr):
     ''' Наследован ли атрибут от родителя.
@@ -70,6 +91,16 @@ def isimp(name, obj, nameattr):
         else:
             return False
     
+def isattrexception(name, obj, nameattr):
+    try:
+        objattr = getattr(obj, nameattr)
+    except Exception as e:
+        return True
+    return False
+
+def getattr(obj, nameattr):
+    dct = dict(I.inspect.getmembers(obj))
+    return dct[nameattr]
 
 def ownattr(name, obj):
     ''' Генераторная функция. Производит атрибуты объекта в стиле inspect.getmembers, которые принадлежат самому объекту. '''
@@ -83,8 +114,8 @@ def ownattr(name, obj):
             yield namemem, objmem
 
 def getmembers(name, obj, predicate):
-    ''' Генератор. Реализует другой тип предиката для inspect.getmembers. Рекурсивно выталкивает кортежи (имя, объект) из объектов и его атрибутов.
-        predicate - функция с сигнатурой (obj, nameattr): принимает объект и имя его атрибута. Возвращает True, если атрибут должен быть вытолкнут. ''' 
+    ''' Генератор. Реализует другой тип предиката для inspect.getmembers. Выталкивает кортежи (имя, объект) из объектов и его атрибутов.
+        predicate - функция с сигнатурой (name, obj, nameattr): принимает имя объекта, объект и имя его атрибута. Возвращает True, если атрибут должен быть вытолкнут. ''' 
 
     members = I.inspect.getmembers(obj)
 
