@@ -6,6 +6,7 @@
 class I:
     import inspect
     import re
+    from contextlib import AbstractContextManager
 
 def to_short(qualname):
     ''' Преобразовать квалифицированное имя в короткое.''' 
@@ -17,18 +18,21 @@ def any_fullmatch(string, *patterns):
     gen = (I.re.fullmatch(pattern, string) for pattern in patterns)
     return any(gen)
 
-def getfunc_match_sn(*patterns):
-    'Возвращает функцию, которая возвращает True, если имя атрибута совпало с одним из указанных паттернов'
-    def ismatching_shortname(name, obj, nameattr):
-        return any_fullmatch(nameattr, *patterns)
-    return ismatching_shortname
+class ContextPatterns(I.AbstractContextManager):
+    def __init__(self, *patterns):
+        self.patterns = patterns
 
-def getfunc_match_qn(*patterns):
-    'Возвращает функцию, которая возвращает True, если квалифицированное имя name.nameattr атрибута совпало с одним из указанных паттернов'
-    def ismatching_qualname(name, obj, nameattr):
+    def __exit__(self, *exc):
+        pass
+
+    def match_nameattr(self, name, obj, nameattr):
+        'возвращает True, если имя атрибута совпало с одним из указанных паттернов'
+        return any_fullmatch(nameattr, *self.patterns)
+
+    def match_qualname(self, name, obj, nameattr):
+        'возвращает True, если квалифицированное имя name.nameattr атрибута совпало с одним из указанных паттернов'
         qualname = '.'.join([name, nameattr])
-        return any_fullmatch(qualname, *patterns)
-    return ismatching_qualname
+        return any_fullmatch(qualname, *self.patterns)
 
 def getmembers_recursive(name, obj, predicate):
     ''' Генераторная функция. Реализует рекурсивный обход атрибутов объекта. '''

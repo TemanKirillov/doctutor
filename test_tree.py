@@ -8,8 +8,7 @@ class I:
     from tree import getmembers
     from tree import isimp
     from tree import isinparent
-    from tree import getfunc_match_sn
-    from tree import getfunc_match_qn
+    from tree import ContextPatterns
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -70,17 +69,18 @@ class Test_getmembers(I.unittest.TestCase):
         gen = I.getmembers('string', string, I.isimp) 
         [print(i) for i in list(gen)]
 
-class Test_getfunc_match(I.unittest.TestCase):
+class Test_ContextPatterns(I.unittest.TestCase):
     
     def test_sn(self):
         def f1():
             pass
         f1.a25 = 3
-        func = I.getfunc_match_sn(r'a\d\d', r'__\w\w')
-        self.assertTrue(func('f1', f1, 'a25'))
-        self.assertFalse(func('f1', f1, 'abc'))
-        self.assertTrue(func('f1', f1, '__ab'))
-        self.assertFalse(func('f1', f1, '__ab__'))
+        with I.ContextPatterns(r'a\d\d', r'__\w\w') as context:
+            func = context.match_nameattr
+            self.assertTrue(func('f1', f1, 'a25'))
+            self.assertFalse(func('f1', f1, 'abc'))
+            self.assertTrue(func('f1', f1, '__ab'))
+            self.assertFalse(func('f1', f1, '__ab__'))
 
     def test_sn_getmembers(self):
         def f1():
@@ -89,19 +89,20 @@ class Test_getfunc_match(I.unittest.TestCase):
         f1.abc = 3
         f1.__ab = 3
         f1.__ab__ = 3
-        func = I.getfunc_match_sn(r'a\d\d', r'__\w\w')
-        gen = I.getmembers('f1', f1, func)
-        [print(i) for i in list(gen)]
+        with I.ContextPatterns(r'a\d\d', r'__\w\w') as context:
+            gen = I.getmembers('f1', f1, context.match_nameattr)
+            [print(i) for i in list(gen)]
 
     def test_qn(self):
         def f1():
             pass
         f1.a25 = 3
-        func = I.getfunc_match_qn(r'f1[.]a\d\d', r'f2[.]__\w\w')
-        self.assertTrue(func('f1', f1, 'a25'))
-        self.assertFalse(func('f1', f1, 'abc'))
-        self.assertFalse(func('f1', f1, '__ab'))
-        self.assertTrue(func('f2', f1, '__ab'))
+        with I.ContextPatterns(r'f1[.]a\d\d', r'f2[.]__\w\w') as context:
+            func = context.match_qualname
+            self.assertTrue(func('f1', f1, 'a25'))
+            self.assertFalse(func('f1', f1, 'abc'))
+            self.assertFalse(func('f1', f1, '__ab'))
+            self.assertTrue(func('f2', f1, '__ab'))
 
 
 if __name__ == '__main__':
