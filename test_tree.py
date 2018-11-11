@@ -109,12 +109,44 @@ class Test_ContextPatterns(I.unittest.TestCase):
 class Test_getmembers_recursive(I.unittest.TestCase):
     
     def test_isimp(self):
+        # извлечение импортированных элементов рекурсивно
         import string
+        print('\n\n')
+        print('Test getmembers_recursive')
         print('Вывод импортированных объектов рекурсивно')
         def temp(name, obj, nameattr): #чтобы избежать зацикливания на внутренних атрибутах
             return I.isimp(name, obj, nameattr) and not I.isdunder(name, obj, nameattr)
-        gen = I.getmembers_recursive('string', string, temp ) 
-        [print(i) for i in list(gen)]
+        def all_(*args):
+            return True
+        gen = I.getmembers_recursive('string', string, temp, all_ ) 
+        lst = list(gen)
+        self.assertEqual(len(lst), 38)
+        [print(i) for i in lst]
+
+    def test_ownattr(self):
+        #тестирование извлечения собственных аргументов 
+        def temp(*args):
+            return I.isimp(*args) or I.isdunder(*args) or I.isinparent(*args)
+
+        def temp_not(*args):
+            return not temp(*args)
+
+        print('\n\n')
+        print('Вывод собственных аргументов')
+        import string
+        def all_(*args):
+            return True
+        def not_parent(*args):
+            return not I.isinparent(*args)
+        
+        gen = I.getmembers_recursive('string', string, not_parent, temp_not ) 
+        lst = list(gen)
+        self.assertEqual(len(lst), 192)
+        [print(i) for i in lst]
+
+
+        
+            
 
 
 

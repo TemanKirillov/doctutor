@@ -48,12 +48,17 @@ class ContextPatterns(I.AbstractContextManager):
         qualname = '.'.join([name, nameattr])
         return any_fullmatch(qualname, *self.patterns)
 
-def getmembers_recursive(name, obj, predicate):
-    ''' Генераторная функция. Реализует рекурсивный обход атрибутов объекта. '''
+def getmembers_recursive(name, obj, predicate, predicate_recursive):
+    ''' Генераторная функция. Реализует рекурсивный обход атрибутов объекта. 
+    name: имя объекта,
+    obj: сам объект,
+    predicate: как в функции getmembers
+    predicate_recursive: функция-предикат, должна возвращать True, если атрибуты этого атрибута должны быть также обойдены'''
     for nameattr, objattr in getmembers(name, obj, predicate):
         qualname= '.'.join([name, nameattr])
         yield qualname, objattr
-        yield from getmembers_recursive(qualname, objattr, predicate)
+        if predicate_recursive(name, obj, nameattr):
+            yield from getmembers_recursive(qualname, objattr, predicate, predicate_recursive)
 
 def isdescriptor(obj):
     ''' Реализован ли в объекте протокол дескриптора?'''
@@ -99,6 +104,7 @@ def isattrexception(name, obj, nameattr):
     return False
 
 def getattr(obj, nameattr):
+    ''' Реализация getattr для работы с атрибутами, которые возбуждают AttributeError при обращении к себе. '''
     dct = dict(I.inspect.getmembers(obj))
     return dct[nameattr]
 
