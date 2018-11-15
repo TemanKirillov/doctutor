@@ -21,6 +21,19 @@ class Test_Repr(I.unittest.TestCase):
         default = ('name', 'val', 'name for test')
         res = r.Default(default)
         print(res)
+        default = ('name', 'val', '')
+        res = r.Default(default)
+        print(res)
+
+    def test_Param(self):
+        r = I.Repr()
+        obj = ('parameter', 'TYPE', repr('abc'), 'My parameter for test')
+        res = r.Param(obj)
+        print(res)
+        #без значения по умолчанию и описания
+        obj = ('parameter', 'TYPE', '', '')
+        res = r.Param(obj)
+        print(res)
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)

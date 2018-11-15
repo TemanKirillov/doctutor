@@ -57,12 +57,12 @@ class Repr:
     def Param(self, obj):
         ''' Формирует вывод параметра'''
         name, kind, default, desc = obj
-
-        name_def = name if default is None else name + '=' + default
-        desc = self.DESC_DEFAULT_PARAM if desc is None else desc
-        res = ( name_def + '\n' +
-                add_tab(kind) + '\n' +
-                add_tab(desc) )
+        name_def = name + '=' + default if default else name
+        desc = desc if desc else self.DESC_DEFAULT
+        res = '\n'.join( 
+                (name_def, 
+                add_tab(kind),
+                add_tab(desc) ))
         return res
 
     def _old_params(self): 
