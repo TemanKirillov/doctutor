@@ -90,6 +90,15 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Parents(obj)
         print(res)
 
+    def test_BlockOperators(self):
+        r = I.Repr()
+        obj = ('obj + other', '__dunder__', 'abc')
+        res = r.BlockOperators(obj)
+        print(res)
+        #длинный список
+        obj = range(0, 100)
+        res = r.BlockOperators(obj)
+        print(res)
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)

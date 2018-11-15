@@ -7,8 +7,6 @@
 import inspect
 import builtins
 import re
-from math import ceil
-from itertools import zip_longest
 import operator
 from collections import UserDict
 import json
@@ -378,41 +376,9 @@ def get_operators(cls):
     
     return res
 
-def to_columns(iterable, n):
-    elems = to_pieces(iterable, n)
-    widths = [] #ширины для каждого столбца
-    for piece in elems:
-        piece = [str(i) for i in piece]
-        if piece:
-            width = len(max(piece, key=len))
-        else:
-            width = 0
-        widths.append(width)    
-    
-    strings = zip_longest(*elems, fillvalue='') #строки в виде последовательности элементов
-    
-    text = ''
-    for string in strings:
-        parts_of_string = ['{:<{}}'.format(elem, width) for elem, width in zip(string, widths)]
-        res = '  '.join(parts_of_string)
-        if text:
-            text += '\n' + res
-        else:
-            text = res
-            
-    return text
     
 
     
-def to_pieces(iterable, n): 
-    ''' Разбивает iterable на n списков'''
-    li = list(iterable)
-    if not li:
-        return [list() for i in range(n)]
-    else:
-        in_piece = ceil(len(li) / n)        
-        return [li[:in_piece]] + to_pieces(li[in_piece:], n-1)
-        
 def get_init(cls, example=None):
     sign = None
     try:

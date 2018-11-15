@@ -1,6 +1,9 @@
 #!/usr/bin/python3 
 ''' Модуль представления объектов в строковом виде.'''
 
+class I:
+    from itertools import zip_longest
+    from math import ceil
 
 def add_tab(text, number=1, as_space=None):
     ''' Добавляет в text для каждой строки символы \t в количестве заданном number.    '''
@@ -20,6 +23,39 @@ def add_tab(text, number=1, as_space=None):
         return pasted * number + replace(text[:-1]) + '\n'
     else:
         return pasted * number + replace(text)
+
+def to_pieces(iterable, n): 
+    ''' Разбивает iterable на n списков'''
+    li = list(iterable)
+    if not li:
+        return [list() for i in range(n)]
+    else:
+        in_piece = I.ceil(len(li) / n)        
+        return [li[:in_piece]] + to_pieces(li[in_piece:], n-1)
+        
+def to_columns(iterable, n):
+    elems = to_pieces(iterable, n)
+    widths = [] #ширины для каждого столбца
+    for piece in elems:
+        piece = [str(i) for i in piece]
+        if piece:
+            width = len(max(piece, key=len))
+        else:
+            width = 0
+        widths.append(width)    
+    
+    strings = I.zip_longest(*elems, fillvalue='') #строки в виде последовательности элементов
+    
+    text = ''
+    for string in strings:
+        parts_of_string = ['{:<{}}'.format(elem, width) for elem, width in zip(string, widths)]
+        res = '  '.join(parts_of_string)
+        if text:
+            text += '\n' + res
+        else:
+            text = res
+            
+    return text
 
 class Repr:
     ''' Класс предоставления информации об объектах'''
@@ -136,21 +172,24 @@ class Repr:
         res = '\n'.join((self.PARENTS, add_tab(res)))
         return res
 
-    def operators(self, own=None, *parents):
-        ''' Возвращает текст, который представляет операторы класса. 
-            own: экземпляр класса Operators с собственными операторами класса
-            parents: экземпляры класса Operators с операторами родительских классов'''
-
+    def BlockOperators(self, obj):
+        ''' Представляет совокупность операторов, как одно целое '''
         get_column = lambda iterable: 2 if len(iterable) <= 10 else 3
+        obj = list(obj)
+        columns = get_column(obj)
+        res = to_columns(obj, columns)
+
+        if res:
+            return res
+        else:
+            return self.NONE
+
+    def Operators(self, own=None, *parents):
+        ''' Возвращает текст, который представляет операторы класса. '''
 
         res = ''        
         res += self.OPERATORS + '\n'
         res += add_tab(self.OPERATORS_OWN + '\n') 
-        if own is None or not own.operators:
-            res += add_tab(self.NONE, 2)
-        else:
-            columns = get_column(own.operators)
-            res += add_tab(to_columns(own.operators, columns), 2)
 
         for parent in parents:
             if parent.operators:
@@ -163,6 +202,7 @@ class Repr:
         res += '\n\n'
 
         return res
+
 
     def attrs(self, *groups):
         res = ''
