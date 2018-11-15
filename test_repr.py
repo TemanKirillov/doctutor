@@ -51,6 +51,18 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Return(obj)
         print(res)
 
+    def test_Example(self):
+        r = I.Repr()
+        obj = ('<Example>',)
+        res = r.Example(obj)
+        print(res)
+
+    def test_Except(self):
+        r = I.Repr()
+        obj = ('RuntimeError', 'Попытка операции на закрытом соединении.', '<Code>')
+        res = r.Except(obj)
+        print(res)
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)

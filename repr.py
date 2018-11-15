@@ -82,19 +82,22 @@ class Repr:
         res = '\n'.join((self.RETURN, add_tab(desc)))
         return res
 
-    def example(self, desc):
+    def Example(self, obj):
         ''' Возвращает отформатированный текст примера'''
-        return self.EXAMPLE + add_tab(desc)
+        desc, = obj
+        res = '\n'.join((self.EXAMPLE, add_tab(desc)))
+        return res
 
-    def exception(self, except_): 
+    def Except(self, obj): 
         ''' Представление экземпляра mydoc.Except'''
         #поля name desc example
-        res = except_.name
-        if except_.desc is None:
-            pass
-        else:
-            res += add_tab(except_.desc)
-        res += '\n' + add_tab(except_.example)
+        name, desc, example, = obj
+        res = []
+        res.append(name)
+        if desc:
+            res.append(add_tab(desc))
+        res.append(add_tab(example))
+        res = '\n'.join(res)
         return res
 
 
