@@ -112,21 +112,17 @@ class Repr:
         res = '\n'.join((self.EXCEPTIONS, add_tab(res)))
         return res
 
-    def func(self, func_):
+    def Func(self, obj):
         ''' Возвращает отформатированный текст функции'''
         
-        name = func_.name
-        sign = func_.sign
-        doc = func_.doc
-        params = func_.params
-        return_ = func_.return_
-        example = func_.example
-        exceptions = func_.exceptions
+        (name, sign, doc, params,
+        return_, example, exceptions,) = obj 
 
-        name_sign = name + (sign if sign else '')
-        res = doc if doc else ''
-        res += '\n'.join([params, return_, example, exceptions])
-        res = name_sign + add_tab(res)
+        name_sign = name + sign
+        res = [doc]
+        res.extend([params, return_, example, exceptions])
+        res = '\n\n'.join(res)
+        res = '\n'.join((name_sign, add_tab(res)))
         return res
 
     def parents(self, iterable):

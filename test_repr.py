@@ -73,6 +73,14 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Exceptions(obj)
         print(res)
 
+    def test_Func(self):
+        r = I.Repr()
+        obj = ('hex', '(number)', 'Hexadecimal repr', 
+               'number', 'string instance', '<Пример>', '<Исключения>')
+        res = r.Func(obj)
+        print(res)
+
+
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
