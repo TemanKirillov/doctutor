@@ -2,19 +2,24 @@
 ''' Модуль представления объектов в строковом виде.'''
 
 
-def add_tab(text, number=1):
+def add_tab(text, number=1, as_space=None):
     ''' Добавляет в text для каждой строки символы \t в количестве заданном number.    '''
-    
+
+    if as_space is None:
+        pasted = '\t'
+    else:
+        pasted = ' ' * as_space
+
     text = str(text)
 
     def replace(text):
-        return text.replace('\n', '\n' + '\t' * number)
+        return text.replace('\n', '\n' + pasted * number)
     
 
     if text.endswith('\n'):
-        return '\t' * number + replace(text[:-1]) + '\n'
+        return pasted * number + replace(text[:-1]) + '\n'
     else:
-        return '\t' * number + replace(text)
+        return pasted * number + replace(text)
 
 class Repr:
     ''' Класс предоставления информации об объектах'''
@@ -33,6 +38,7 @@ class Repr:
     
     def Default(self, obj):
         ''' Формирует вывод для констант'''
+        name, value, desc = obj
         desc = desc if desc else self.DESC_DEFAULT
         if len(value) >= 200:
             value = value[:200] + '...'
@@ -198,7 +204,7 @@ class Repr:
 
 
 
-    def class(self, class_):
+    def class_cls(self, class_):
         res = '\n'.join(class_[1:])
         res = class_.name + add_tab(res)
         return res
