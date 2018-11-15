@@ -63,6 +63,17 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Except(obj)
         print(res)
 
+    def test_Exceptions(self):
+        r = I.Repr()
+        obj = ('Описание исключения 1', 'Описание исключения 2')
+        res = r.Exceptions(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.Exceptions(obj)
+        print(res)
+
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)

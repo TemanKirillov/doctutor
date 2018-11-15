@@ -101,20 +101,15 @@ class Repr:
         return res
 
 
-    def exceptions(self, iterable: 'of Except'):
-        ''' Возвращает отформатированный текст исключения'''
-        res = ''
-        for exception in iterable:
-            res += self.exception(exception)
-            res += '\n'
-
+    def Exceptions(self, obj):
+        ''' Представление исключений '''
+        res = '\n'.join(obj)
         if res:
             pass
         else:
             res = self.NONE
 
-        res = self.EXCEPTIONS + add_tab(res)
-
+        res = '\n'.join((self.EXCEPTIONS, add_tab(res)))
         return res
 
     def func(self, func_):
