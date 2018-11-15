@@ -76,9 +76,11 @@ class Repr:
         res = '\n'.join((self.PARAMS, add_tab(res)))
         return res
 
-    def return_(self, desc):
-        ''' Возвращает текст описания возвращаемого значения'''
-        return self.RETURN + add_tab(desc)
+    def Return(self, obj):
+        ''' Описание возвращаемого значения'''
+        desc, = obj
+        res = '\n'.join((self.RETURN, add_tab(desc)))
+        return res
 
     def example(self, desc):
         ''' Возвращает отформатированный текст примера'''

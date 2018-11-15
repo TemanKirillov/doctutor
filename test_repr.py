@@ -45,6 +45,12 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Params(obj)
         print(res)
 
+    def test_Return(self):
+        r = I.Repr()
+        obj = ('None',)
+        res = r.Return(obj)
+        print(res)
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)
