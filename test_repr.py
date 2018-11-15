@@ -80,6 +80,15 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Func(obj)
         print(res)
 
+    def test_Parents(self):
+        r = I.Repr()
+        obj = ('Описание родителя 1', 'Описание родителя 2')
+        res = r.Parents(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.Parents(obj)
+        print(res)
 
 
 if __name__ == '__main__':

@@ -125,11 +125,15 @@ class Repr:
         res = '\n'.join((name_sign, add_tab(res)))
         return res
 
-    def parents(self, iterable):
-        ''' Возвращает текст, который соответствует представлению предков из iterable'''
+    def Parents(self, obj):
+        ''' Возвращает текст, который соответствует представлению предков'''
+        res = '\n'.join(obj)
+        if res:
+            pass
+        else:
+            res = self.NONE
 
-        res = self.PARENTS + '\n' + add_tab('\n'.join(iterable))
-
+        res = '\n'.join((self.PARENTS, add_tab(res)))
         return res
 
     def operators(self, own=None, *parents):
