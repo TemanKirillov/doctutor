@@ -37,7 +37,7 @@ class Repr:
     OPERATORS_PARENT = 'Наследована от'
     
     def Default(self, obj):
-        ''' Формирует вывод для констант'''
+        ''' Описание по умолчанию'''
         name, value, desc = obj
         desc = desc if desc else self.DESC_DEFAULT
         if len(value) >= 200:
@@ -55,7 +55,7 @@ class Repr:
         return res
 
     def Param(self, obj):
-        ''' Формирует вывод параметра'''
+        ''' Описание параметра'''
         name, kind, default, desc = obj
         name_def = name + '=' + default if default else name
         desc = desc if desc else self.DESC_DEFAULT
@@ -65,44 +65,15 @@ class Repr:
                 add_tab(desc) ))
         return res
 
-    def _old_params(self): 
-        sign = None
-        try:
-            sign = str()
-            sign = inspect.signature(obj)
-            text_sign = str(sign)
-            params = sign.parameters #mappingproxy(OrderedDict...
-        except ValueError: #Если built-in get_view_func or class
-            pass
-        except IndexError: #когда метод сгенерирован функцией partialmethod
-            pass
-            
-        #text = 'Параметры\n'
-        text = ''
-        if sign:
-            for param in params.values():
-                text += str(param) + '\n'
-                text += add_tab('Вид: ' + str(param.kind) + '\n')
-                
-        else:
-            text += '<Параметр built-in>\n'
-            text += add_tab('<Описание>\n')
-            
-        return text
-
-    def params(self, iterable: 'of Params') -> 'str instance':
+    def Params(self, obj) -> 'str instance':
         ''' Возвращает текст описания параметров '''
-        res = ''
-        for param in iterable:
-            res += self.param(*param)
-
+        res = '\n'.join(obj)
         if res:
             pass
         else:
             res = self.NONE
 
-        res = self.PARAMS + add_tab(res)
-
+        res = '\n'.join((self.PARAMS, add_tab(res)))
         return res
 
     def return_(self, desc):

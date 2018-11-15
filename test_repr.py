@@ -35,6 +35,16 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Param(obj)
         print(res)
 
+    def test_Params(self):
+        r = I.Repr()
+        obj = ('Описание параметра 1', 'Описание параметра 2')
+        res = r.Params(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.Params(obj)
+        print(res)
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)
