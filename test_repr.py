@@ -41,7 +41,7 @@ class Test_Repr(I.unittest.TestCase):
         default = ('name', 'val', 'name for test')
         res = r.Default(default)
         print(res)
-        default = ('name', 'val', '')
+        default = 5
         res = r.Default(default)
         print(res)
 

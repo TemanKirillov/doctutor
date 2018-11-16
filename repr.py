@@ -75,21 +75,19 @@ class Repr:
     
     def Default(self, obj):
         ''' Описание по умолчанию'''
-        name, value, desc = obj
-        desc = desc if desc else self.DESC_DEFAULT
-        if len(value) >= 200:
-            value = value[:200] + '...'
-        
-        example = '>>> {}\n{}\n'.format(name, value)
-            
+        try:
+            name, *other = obj
+        except TypeError: #if not iterable
+            name = repr(obj)
+            other = ''
 
-        res = '\n'.join( 
-                (name,
-                add_tab(desc),
-                '',
-                add_tab(example) ))
-
+        if other:
+            res = '\n\n'.join(other)
+        else:
+            res = self.DESC_DEFAULT
+        res = '\n'.join((name, add_tab(res)))
         return res
+
 
     def Param(self, obj):
         ''' Описание параметра'''
