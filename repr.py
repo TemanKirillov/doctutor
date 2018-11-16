@@ -193,25 +193,26 @@ class Repr:
             operators = self.NONE
         res = '\n'.join((owner, add_tab(operators)))
         return res
-        
 
-    def Operators(self, own=None, *parents):
+    def Operators(self, obj):
         ''' Возвращает текст, который представляет операторы класса. '''
-
-        res = ''        
-        res += self.OPERATORS + '\n'
-        res += add_tab(self.OPERATORS_OWN + '\n') 
-
-        for parent in parents:
-            if parent.operators:
-                res += add_tab(self.OPERATORS_PARENT + ' ' + parent.self + '\n') 
-                columns = get_column(parent.operators)
-                res += add_tab(to_columns(parent.operators, columns), 2)
-            else:
-                res += add_tab(self.NONE, 2)
-        
-        res += '\n\n'
-
+        obj = list(obj)
+        operators_own = obj.pop(0)
+        res = []
+        res.append(self.OPERATORS)
+        res.append(add_tab(self.OPERATORS_OWN))
+        if operators_own:
+            res.append(add_tab(operators_own, 2))
+        else:
+            res.append(add_tab(self.NONE, 2))
+        res.append('')
+        res.append(add_tab(self.OPERATORS_PARENT))
+        if obj:
+            loc_add_tab = lambda x: add_tab(x,2)
+            res.extend(map(loc_add_tab, obj))
+        else:
+            res.append(add_tab(self.NONE, 2))
+        res = '\n'.join(res)
         return res
 
 

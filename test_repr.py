@@ -130,6 +130,20 @@ class Test_Repr(I.unittest.TestCase):
         res = r.GroupOperators(obj)
         print(res)
 
+    def test_Operators(self):
+        r = I.Repr()
+        obj = ( '__dunder__\nabc', '<Операторы родителя 1>', '<Операторы родителя 2>')
+        res = r.Operators(obj)
+        print(res)
+        #пустой список собственных операторов
+        obj = ['', '<Операторы родителя 1>' ]
+        res = r.Operators(obj)
+        print(res)
+        #нет операторов
+        obj = ['']
+        res = r.Operators(obj)
+        print(res)
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)
