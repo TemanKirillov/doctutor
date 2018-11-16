@@ -215,17 +215,18 @@ class Repr:
         res = '\n'.join(res)
         return res
 
-
-    def attrs(self, *groups):
-        res = ''
-        for group in groups:
-            res += group.name + '\n'
-            res += add_tab('\n'.join(group.attrs))
-            res += '\n'
-
+    def Attrs(self, obj):
+        ''' Представление последовательности атрибутов '''
+        res = '\n\n'.join(obj)
         return res
 
-
+    def GroupAttrs(self, obj):
+        ''' Представление группы атрибутов '''
+        name, attrs = obj
+        if not attrs:
+            attrs = self.NONE
+        res = '\n'.join((name, add_tab(attrs)))
+        return res
 
     def class_cls(self, class_):
         res = '\n'.join(class_[1:])

@@ -144,6 +144,26 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Operators(obj)
         print(res)
 
+    def testAttrs(self):
+        r = I.Repr()
+        obj = ('<Атрибут 1>', '<Атрибут 2>')
+        res = r.Attrs(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.Attrs(obj)
+        print(res)
+
+    def test_GroupAttrs(self):
+        r = I.Repr()
+        obj = ('IMPORTED', '<Атрибут 1>')
+        res = r.GroupAttrs(obj)
+        print(res)
+        #пустой список
+        obj = ('IMPORTED', '')
+        res = r.GroupAttrs(obj)
+        print(res)
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)
