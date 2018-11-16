@@ -137,7 +137,6 @@ class Repr:
         res = '\n'.join(res)
         return res
 
-
     def Exceptions(self, obj):
         ''' Представление исключений '''
         res = '\n'.join(obj)
@@ -184,6 +183,17 @@ class Repr:
             return res
         else:
             return self.NONE
+
+    def GroupOperators(self, obj):
+        ''' Представляет операторы вместе с именем класса-владельца'''
+        owner, operators = obj
+        if operators:
+            pass
+        else:
+            operators = self.NONE
+        res = '\n'.join((owner, add_tab(operators)))
+        return res
+        
 
     def Operators(self, own=None, *parents):
         ''' Возвращает текст, который представляет операторы класса. '''
