@@ -228,9 +228,11 @@ class Repr:
         res = '\n'.join((name, add_tab(attrs)))
         return res
 
-    def class_cls(self, class_):
-        res = '\n'.join(class_[1:])
-        res = class_.name + add_tab(res)
+    def Class(self, obj):
+        ''' Представление класса '''
+        name, doc, parents, init, operators, attrs = obj
+        res = '\n'.join(obj[1:])
+        res = '\n'.join((name, add_tab(res)))
         return res
 
     def module(self, module_):

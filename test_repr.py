@@ -164,6 +164,13 @@ class Test_Repr(I.unittest.TestCase):
         res = r.GroupAttrs(obj)
         print(res)
 
+    def test_Class(self):
+        r = I.Repr()
+        obj = ('string.Template', 'A string class', 
+               '<Parents>', '<init block>', '<Operators>', '<Attributes>')
+        res = r.Class(obj)
+        print(res)
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)
