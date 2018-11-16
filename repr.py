@@ -33,7 +33,8 @@ def to_pieces(iterable, n):
         in_piece = I.ceil(len(li) / n)        
         return [li[:in_piece]] + to_pieces(li[in_piece:], n-1)
         
-def to_columns(iterable, n):
+def to_columns(iterable, n) -> 'str':
+    ''' Возвращает строку из элементов iterable в n столбцов.'''
     elems = to_pieces(iterable, n)
     widths = [] #ширины для каждого столбца
     for piece in elems:

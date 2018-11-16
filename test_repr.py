@@ -5,17 +5,37 @@ class I:
     import unittest
     from repr import Repr
     from repr import add_tab
+    from repr import to_columns
 
 class Test_add_tab(I.unittest.TestCase):
+    TEST1 = 'test\n\tstring\n'
+    TEST2 = '\ttest\n\tstring'
 
-    def test(self):
+    def test_1(self):
         t = ' abc'
         self.assertEqual(I.add_tab(t), '\t abc')
         self.assertEqual(I.add_tab(t, 2), '\t\t abc')
         self.assertEqual(I.add_tab(t, 2, 2), '     abc')
+    
+    def test_2(self):    
+        self.assertEqual(I.add_tab(self.TEST1), '\ttest\n\t\tstring\n')
+        self.assertEqual(I.add_tab(self.TEST2), '\t\ttest\n\t\tstring')
+        self.assertEqual(I.add_tab(self.TEST1, 2), '\t\ttest\n\t\t\tstring\n')
+
+class Test_to_columns(I.unittest.TestCase):    
+    def test(self):  
+    
+        print('='*50)
+        print('Test to_columns:')
+        text = I.to_columns(range(100), 4)
+        print(text)
+        
+        print('='*50)
+        print('Test to_columns with empty arg:')
+        text = I.to_columns([], 4)
+        print(text)
 
 class Test_Repr(I.unittest.TestCase):
-
     def test_Default(self):
         r = I.Repr()
         default = ('name', 'val', 'name for test')

@@ -22,17 +22,6 @@ class Test_in_builtins(unittest.TestCase):
         self.assertTrue(in_builtins(ValueError))
         self.assertFalse(in_builtins('string'))
         
-class Test_add_tab(unittest.TestCase):    
-    TEST1 = 'test\n\tstring\n'
-    TEST2 = '\ttest\n\tstring'
-    
-    def test_all(self):    
-        self.assertEqual(add_tab(self.TEST1), '\ttest\n\t\tstring\n')
-        self.assertEqual(add_tab(self.TEST2), '\t\ttest\n\t\tstring')
-        self.assertEqual(add_tab(self.TEST1, 2), '\t\ttest\n\t\t\tstring\n')
-
-
-
 class Test_const(unittest.TestCase):    
     
     def test_all(self):    
@@ -148,19 +137,6 @@ class Test_methods_to_operators(unittest.TestCase):
         text = to_columns(methods_to_operators(methods, name_class), 3)
         print(text)
         
-class Test_to_columns(unittest.TestCase):    
-    
-    def test_all(self):  
-    
-        print('='*50)
-        print('Test to_columns:')
-        text = to_columns(range(100), 4)
-        print(text)
-        
-        print('='*50)
-        print('Test to_columns with empty arg:')
-        text = to_columns([], 4)
-        print(text)
         
 class Test_partial(unittest.TestCase): #тестирование методов, образованных partialmethod
     
