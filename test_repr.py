@@ -171,6 +171,13 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Class(obj)
         print(res)
 
+    def test_Module(self):
+        r = I.Repr()
+        obj = ('string', 'A collection of string...', 
+               '<Attributes>')
+        res = r.Module(obj)
+        print(res)
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)

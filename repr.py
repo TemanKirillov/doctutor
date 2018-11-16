@@ -235,8 +235,10 @@ class Repr:
         res = '\n'.join((name, add_tab(res)))
         return res
 
-    def module(self, module_):
-        res = '\n'.join(module_[1:])
-        res = module_.name + add_tab(res)
+    def Module(self, obj):
+        ''' Представление модуля '''
+        name, doc, attrs = obj
+        res = '\n\n'.join(obj[1:])
+        res = '\n'.join((name, add_tab(res)))
         return res
 
