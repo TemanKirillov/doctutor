@@ -8,69 +8,12 @@ import inspect
 import builtins
 import re
 import operator
-from collections import UserDict
 import json
-
-class DictValueList(UserDict):
-    def __setitem__(self, key, value):
-        if key in self:
-            self[key].append(value)
-        else:
-            super().__setitem__(key, [value])
 
 def in_builtins(obj):
     ''' является ли объект атрибутом модуля __builtins__'''
     objs_builtins = list(builtins.__dict__.values())
     return obj in objs_builtins
-    
-def namedtuple_methods(cls):
-    """ Декоратор класса, который генерируется collections.namedtuple. Добавляет новые методы."""
-
-    @classmethod
-    def from_dict(cls, dct):
-        return cls._make(dct[f] for f in cls._fields)
-
-    @classmethod
-    def from_json(cls, string):
-        dct = json.loads(string)
-        return cls.from_dict(dct)
-
-    cls.from_dict = from_dict
-    cls.from_json = from_json
-
-    return cls
-    
-@namedtuple_methods
-class Param(collections.namedtuple('_Param', 'name kind default desc')):
-    ''' Класс представления информации о параметре функции. '''
-
-class Func(namedtuple('_Func', 'name sign doc params return_ example exceptions'):
-    ''' Класс представления информации о функции. '''
-
-class Class(namedtuple('_Class', 'name doc parents init operators attrs'):
-    ''' Класс представления информации о классе. '''
-	
-class Default(namedtuple('_Default', 'name value doc'):
-    ''' Класс представления объекта по умолчанию. '''
-
-class Module(namedtuple('_Module', 'name doc attrs'):
-    ''' Класс представления информации о модуле. '''
-
-class Operators(namedtuple('_Operators', 'cls operators'):
-    ''' Класс представления информации о операторах.
-        cls: имя класса, в котором определены операторы,
-        operators: iterable с именами операторов'''
-
-class GroupAttrs(namedtuple('_GroupAttrs', 'name attrs'):
-    ''' Класс представления информации о группе атрибутов. 
-        name: имя группы,
-        attrs: iterable of str, каждая str с описанием одного атрибута'''
-
-
-class Except(namedtuple('_Except', 'name desc example')):
-    ''' Класс представления информации об исключении. '''
-
-
 
 def make_func(func):
     ''' Конструктор экземпляра Func из объекта реальной функции.'''
@@ -104,7 +47,6 @@ def make_func(func):
     example = None
     exceptions = None
 
-
 def make_params(obj):
     res = list()
     sign = inspect.signature(obj)
@@ -132,8 +74,6 @@ def get_example(obj, name_parent=None, name_obj=None):
     res += repr(obj)
     return res
     
-
-
 def get_view_func(func, name_parent=None, example=None, name_func=None):
     
     if name_func is None:
