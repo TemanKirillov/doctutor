@@ -1,7 +1,6 @@
 import unittest
 
 from mydoc import in_builtins
-from mydoc import add_tab
 from mydoc import const
 from mydoc import get_params
 from mydoc import get_example
@@ -12,7 +11,6 @@ from mydoc import get_view_class
 from mydoc import get_view_module
 from mydoc import method_to_operator
 from mydoc import methods_to_operators
-from mydoc import to_columns
 
 class Test_in_builtins(unittest.TestCase):    
     

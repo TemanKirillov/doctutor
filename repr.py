@@ -88,7 +88,6 @@ class Repr:
         res = '\n'.join((name, add_tab(res)))
         return res
 
-
     def Param(self, obj):
         ''' Описание параметра'''
         name, kind, default, desc = obj
