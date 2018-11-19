@@ -27,4 +27,19 @@ def default():
     disp = construct_dispatch(objs, I.repr.Repr())
     return disp
 
+def recursive(obj):
+    ''' Рекурсивно обходит объект, отправляя вложенные объекты на представление'''
+    disp = default()
+    loc_isinstance = lambda obj: isinstance(obj, I.obj.Obj)
+    if loc_isinstance: # если это объект для представления
+        if any(map(loc_isinstance, obj)): # если есть вложенные объекты для представления
+            cls = obj.__class__
+            iterable = []
+            for item in obj:
+                if loc_isinstance(item):
+                    iterable.append(recursive(item))
+                else:
+                    iterable.append(item)
+            return disp(cls(iterable))
 
+    return disp(obj)
