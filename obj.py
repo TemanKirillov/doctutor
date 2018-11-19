@@ -3,6 +3,8 @@
 
 ''' Объекты для представления модулем repr. '''
 
+__all__ = ['Attrs', 'BlockOperators', 'Class', 'Example', 'Except', 'Exceptions', 'Func', 'GroupAttrs', 'GroupOperators', 'Module', 'Operators', 'Param', 'Params', 'Parents', 'Return']
+
 class I:
     from collections import namedtuple
     from collections import UserList

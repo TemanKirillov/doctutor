@@ -5,8 +5,11 @@
 
 class I:
     from functools import singledispatch
+    import repr
+    import obj
 
 def construct_dispatch(objs, reprobj):
+    ''' Строит диспетчер для объектов objs с использованием методов объекта reprobj (repr.Repr). '''
     disp = I.singledispatch(reprobj.Default)
     for obj in objs:
         name = obj.__name__
@@ -16,5 +19,12 @@ def construct_dispatch(objs, reprobj):
         else:
             msg = "Not possible to register {}".format(name)
             raise ValueError(msg)
+    return disp
+
+def default():
+    ''' Диспетчер объектов по умолчанию. '''
+    objs = [ getattr(I.obj, name) for name in I.obj.__all__]
+    disp = construct_dispatch(objs, I.repr.Repr())
+    return disp
 
 
