@@ -7,6 +7,7 @@ class I:
     import make
     import disp
     from repr import Repr
+    import collections.abc as abc
 
 r = I.Repr()
 m = I.make.Make()
@@ -26,6 +27,10 @@ class Test_Params(I.unittest.TestCase):
         obj = m.Params(func)
         res = I.disp.recursive(obj)
         print(res)
+        #test builtin function
+        obj = m.Params(hex)
+        res = I.disp.recursive(obj)
+        print(res)
 
 class Test_Return(I.unittest.TestCase):    
     def test(self):  
@@ -34,6 +39,20 @@ class Test_Return(I.unittest.TestCase):
         print(res)
         #test without return annotation
         obj = m.Return(func2)
+        res = I.disp.recursive(obj)
+        print(res)
+        #test builtin function
+        obj = m.Return(hex)
+        res = I.disp.recursive(obj)
+        print(res)
+
+class Test_Parents(I.unittest.TestCase):    
+    def test(self):
+        obj = m.Parents(I.abc.Mapping)
+        res = I.disp.recursive(obj)
+        print(res)
+        #test builtin function
+        obj = m.Parents(hex)
         res = I.disp.recursive(obj)
         print(res)
 

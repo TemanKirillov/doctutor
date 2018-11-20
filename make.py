@@ -30,6 +30,13 @@ class Make:
         else:
             res = repr(sign.return_annotation)
         return I.obj.Return(res)
+
+    def Parents(self, obj):
+        try:
+            return I.obj.Parents(repr(item) for item in I.inspect.getmro(obj)[1:])
+        except AttributeError:
+            return I.obj.Parents()
+
         
     
 

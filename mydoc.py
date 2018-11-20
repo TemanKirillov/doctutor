@@ -207,9 +207,6 @@ def get_operators(cls):
     
     return res
 
-    
-
-    
 def get_init(cls, example=None):
     sign = None
     try:
@@ -232,32 +229,6 @@ def get_init(cls, example=None):
           '\t\t\t' + '<Пример>' + '\n\n'
           
     return res
-
-def get_params(obj):
-    ''' Возвращает текст описания параметров функции или конструктора класса'''
-    sign = None
-    try:
-        sign = str()
-        sign = inspect.signature(obj)
-        text_sign = str(sign)
-        params = sign.parameters #mappingproxy(OrderedDict...
-    except ValueError: #Если built-in get_view_func or class
-        pass
-    except IndexError: #когда метод сгенерирован функцией partialmethod
-        pass
-        
-    #text = 'Параметры\n'
-    text = ''
-    if sign:
-        for param in params.values():
-            text += str(param) + '\n'
-            text += add_tab('Вид: ' + str(param.kind) + '\n')
-            
-    else:
-        text += '<Параметр built-in>\n'
-        text += add_tab('<Описание>\n')
-        
-    return text
 
 def get_view_class(cls):
     parents = '\n'.join((item.__name__ for item in cls.__mro__[1:]))
