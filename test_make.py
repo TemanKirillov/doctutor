@@ -12,6 +12,8 @@ r = I.Repr()
 m = I.make.Make()
 def func(a, b = 1, c: 'param C' = 10) -> 'str':
     pass
+def func2(a, b = 1, c: 'param C' = 10):
+    pass
 
 class Test_Param(I.unittest.TestCase):    
     def test(self):  
@@ -22,6 +24,16 @@ class Test_Param(I.unittest.TestCase):
 class Test_Params(I.unittest.TestCase):    
     def test(self):  
         obj = m.Params(func)
+        res = I.disp.recursive(obj)
+        print(res)
+
+class Test_Return(I.unittest.TestCase):    
+    def test(self):  
+        obj = m.Return(func)
+        res = I.disp.recursive(obj)
+        print(res)
+        #test without return annotation
+        obj = m.Return(func2)
         res = I.disp.recursive(obj)
         print(res)
 

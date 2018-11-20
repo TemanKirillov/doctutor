@@ -113,6 +113,10 @@ class Repr:
     def Return(self, obj):
         ''' Описание возвращаемого значения'''
         desc, = obj
+        if desc:
+            pass
+        else:
+            desc = self.NO_INFO
         res = '\n'.join((self.RETURN, add_tab(desc)))
         return res
 
