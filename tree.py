@@ -85,6 +85,8 @@ def isinparent(name, obj, nameattr):
 def isimp(name, obj, nameattr):
     ''' Импортирован ли атрибут?
         Принимает объект и имя его атрибута'''
+    if isinparent(name, obj, nameattr):
+        return False
     objattr = getattr(obj, nameattr)
     module = I.inspect.getmodule(obj)
     modattr = I.inspect.getmodule(objattr)
