@@ -72,14 +72,22 @@ def isdunder(name, obj, nameattr):
 def isinparent(name, obj, nameattr):
     ''' Наследован ли атрибут от родителя.
         Принимает объект и имя его атрибута'''
-    cls = obj.__class__
-    objattr = getattr(obj, nameattr)
-    memcls = dict(I.inspect.getmembers(cls))
-
-    if nameattr in memcls:
-        parent_obj = memcls[nameattr]
-        if (parent_obj == objattr or isdescriptor(parent_obj)):
+    if I.inspect.isclass(obj):
+        loc = I.inspect.classify_class_attrs(obj)
+        memcls = {attr.name: attr for attr in loc}
+        if memcls[nameattr].defining_class == obj:
+            return False
+        else:
             return True
+    else:
+        cls = obj.__class__
+        objattr = getattr(obj, nameattr)
+        memcls = dict(I.inspect.getmembers(cls))
+
+        if nameattr in memcls:
+            parent_obj = memcls[nameattr]
+            if (parent_obj == objattr or isdescriptor(parent_obj)):
+                return True
     return False
 
 def isimp(name, obj, nameattr):
