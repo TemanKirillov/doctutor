@@ -90,6 +90,27 @@ def isinparent(name, obj, nameattr):
                 return True
     return False
 
+def getparent(obj, nameattr):
+    if I.inspect.isclass(obj):
+        loc = I.inspect.classify_class_attrs(obj)
+        memcls = {attr.name: attr for attr in loc}
+        if nameattr in memcls:
+            return memcls[nameattr].defining_class
+        else:
+            raise AttributeError('Object {!r} has no attribute {!r}'.format(obj, nameattr))
+    else:
+        cls = obj.__class__
+        objattr = getattr(obj, nameattr)
+        memcls = dict(I.inspect.getmembers(cls))
+
+        if nameattr in memcls:
+            parent_obj = memcls[nameattr]
+            if (parent_obj == objattr or isdescriptor(parent_obj)):
+                return getparent(cls, nameattr)
+            else:
+                return obj #атрибут переопределён в экземпляре
+        return obj #атрибут определён в экземпляре
+
 def isimp(name, obj, nameattr):
     ''' Импортирован ли атрибут?
         Принимает объект и имя его атрибута'''
@@ -116,7 +137,9 @@ def isattrexception(name, obj, nameattr):
 def getattr(obj, nameattr):
     ''' Реализация getattr для работы с атрибутами, которые возбуждают AttributeError при обращении к себе. '''
     dct = dict(I.inspect.getmembers(obj))
-    return dct[nameattr]
+    if nameattr in dct:
+        return dct[nameattr]
+    raise AttributeError('Object {!r} has no attribute {!r}'.format(obj, nameattr))
 
 def ownattr(name, obj):
     ''' Генераторная функция. Производит атрибуты объекта в стиле inspect.getmembers, которые принадлежат самому объекту. '''

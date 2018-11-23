@@ -11,6 +11,7 @@ class I:
     from tree import ContextPatterns
     from tree import getmembers_recursive
     from tree import isdunder
+    from tree import getparent
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -143,6 +144,22 @@ class Test_getmembers_recursive(I.unittest.TestCase):
         lst = list(gen)
         self.assertEqual(len(lst), 178)
         [print(i) for i in lst]
+
+class Test_getparent(I.unittest.TestCase):
+    
+    def test(self):
+        class A:
+            a = 1
+        class B(A):
+            b = 1
+        C = B()
+        C.a = 2
+        self.assertIs(I.getparent(C, 'a'), C)
+        self.assertIs(I.getparent(B, 'a'), A)
+        self.assertIs(I.getparent(B, 'b'), B)
+        self.assertIs(I.getparent(B, '__hash__'), object)
+        with self.assertRaises(AttributeError):
+            I.getparent(C, 'd')
 
 
         
