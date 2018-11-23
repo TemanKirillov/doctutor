@@ -40,7 +40,7 @@ class Test_ownattr(I.unittest.TestCase):
                 pass
 
         lst = list(I.ownattr('Test', Test))
-        self.assertEqual(len(lst), 9)
+        self.assertEqual(len(lst), 7)
 
         inst = Test()
         inst.attr = 'test attr'
@@ -120,7 +120,7 @@ class Test_getmembers_recursive(I.unittest.TestCase):
             return True
         gen = I.getmembers_recursive('string', string, temp, all_ ) 
         lst = list(gen)
-        self.assertEqual(len(lst), 38)
+        self.assertEqual(len(lst), 32)
         [print(i) for i in lst]
 
     def test_ownattr(self):
@@ -141,7 +141,7 @@ class Test_getmembers_recursive(I.unittest.TestCase):
         
         gen = I.getmembers_recursive('string', string, not_parent, temp_not ) 
         lst = list(gen)
-        self.assertEqual(len(lst), 192)
+        self.assertEqual(len(lst), 178)
         [print(i) for i in lst]
 
 
