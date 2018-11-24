@@ -121,13 +121,10 @@ def isimp(name, obj, nameattr):
 def ownattr(name, obj):
     ''' Генераторная функция. Производит атрибуты объекта в стиле inspect.getmembers, которые принадлежат самому объекту. '''
 
-    memobj = I.inspect.getmembers(obj)
+    def predicate(*args):
+        return not(isinparent(*args) or isimp(*args))
+    yield from getmembers(name, obj, predicate)
 
-    for namemem, objmem in memobj:
-        if isinparent(name, obj, namemem) or isimp(name, obj, namemem):
-            pass
-        else:
-            yield namemem, objmem
 
 if __name__ == '__main__':
     pass
