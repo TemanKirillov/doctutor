@@ -8,20 +8,6 @@ class I:
     import re
     from contextlib import AbstractContextManager
 
-class AttributeException:
-    'Класс для представления атрибута, обращаясь к которому возникает исключение'
-    def __init__(self, exc):
-        self.exc = exc
-    def __repr__(self):
-        namecls = self.__class__.__name__
-        return '{cls}({exc})'.format(namecls,self.exc) 
-    @classmethod
-    def make(cls, obj, nameattr):
-        try:
-            objattr = getattr(obj, nameattr)
-        except Exception as e:
-            return cls(e)
-
 def to_short(qualname):
     ''' Преобразовать квалифицированное имя в короткое.''' 
     short = qualname.split('.')[-1]
@@ -115,13 +101,6 @@ def isimp(name, obj, nameattr):
         else:
             return False
     
-def isattrexception(name, obj, nameattr):
-    try:
-        objattr = getattr(obj, nameattr)
-    except Exception as e:
-        return True
-    return False
-
 def getattr(obj, nameattr):
     ''' Реализация getattr для работы с атрибутами, которые возбуждают AttributeError при обращении к себе. '''
     dct = dict(I.inspect.getmembers(obj))
