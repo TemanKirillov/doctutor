@@ -7,6 +7,7 @@ class I:
     import inspect
     import re
     from contextlib import AbstractContextManager
+    import builtins
 
 def to_short(qualname):
     ''' Преобразовать квалифицированное имя в короткое.''' 
@@ -36,10 +37,21 @@ class ContextPatterns(I.AbstractContextManager):
 
 def getattr(obj, nameattr):
     ''' Реализация getattr для работы с атрибутами, которые возбуждают AttributeError при обращении к себе. '''
-    dct = dict(I.inspect.getmembers(obj))
-    if nameattr in dct:
-        return dct[nameattr]
-    raise AttributeError('Object {!r} has no attribute {!r}'.format(obj, nameattr))
+    if I.inspect.isclass(obj):
+        mro = (obj,) + I.inspect.getmro(obj)
+    else:
+        mro = ()
+    try:
+        value = I.builtins.getattr(obj, nameattr)
+    except AttributeError as e:
+        for base in mro:
+            if nameattr in base.__dict__:
+                value = base.__dict__[key]
+                break
+        else:
+            raise e
+
+    return value
 
 def getmembers(name, obj, predicate):
     ''' Генератор. Реализует другой тип предиката для inspect.getmembers. Выталкивает кортежи (имя, объект) из объектов и его атрибутов.
