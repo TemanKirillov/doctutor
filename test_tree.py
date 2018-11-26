@@ -13,6 +13,7 @@ class I:
     from tree import getmembers_recursive
     from tree import isdunder
     from tree import getparent
+    from tree import getparents
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -151,11 +152,19 @@ class Test_getparent(I.unittest.TestCase):
         with self.assertRaises(AttributeError):
             I.getparent(C, 'd')
 
-
-        
-            
-
-
+class Test_getparents(I.unittest.TestCase):
+    def test(self):
+        class A:
+            a = 1
+        class B(A):
+            b = 1
+        C = B()
+        C.a = 2
+        self.assertEqual(I.getparents(C), (C, B, A, object))
+        self.assertEqual(I.getparents(B), (B, A, object))
+        self.assertEqual(I.getparents(hex), (hex, hex.__class__, object))
+        self.assertEqual(I.getparents(object), (object,))
+        self.assertEqual(I.getparents(type), (type, object,))
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)

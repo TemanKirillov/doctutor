@@ -85,6 +85,13 @@ def getparent(obj, nameattr):
                 return obj #атрибут переопределён в экземпляре
         return obj #атрибут определён в экземпляре
 
+def getparents(obj):
+    ''' Возвращает предков объекта, как и inspect.getmro, но не только для классов'''
+    if I.inspect.isclass(obj):
+        return I.inspect.getmro(obj)
+    else:
+        return (obj,) + I.inspect.getmro(obj.__class__)
+
 def isdescriptor(obj):
     ''' Реализован ли в объекте протокол дескриптора?'''
     if hasattr(obj, '__get__') or hasattr(obj, '__set__'):
