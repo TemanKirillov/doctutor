@@ -3,6 +3,7 @@
 class I:
     from collections import UserDict
     from collections import namedtuple
+    from collections import OrderedDict
 
 def namedtuple_methods(cls):
     """ Декоратор класса, который генерируется collections.namedtuple. Добавляет новые методы."""
@@ -21,9 +22,26 @@ def namedtuple_methods(cls):
 
     return cls
 
-class DictValueList(UserDict):
+class DictValueList(I.UserDict):
     def __setitem__(self, key, value):
         if key in self:
             self[key].append(value)
         else:
             super().__setitem__(key, [value])
+
+class DictAttr(I.OrderedDict):
+    ''' Ключи словаря также являются его атрибутами'''
+    def __set(self, key, value):
+        super().__setitem__(key, value)
+        super().__setattr__(key, value)
+    def __del(self, key):
+        super().__delitem__(key)
+        super().__delattr__(key)
+    def __setitem__(self, key, value):
+        self.__set(key, value)
+    def __setattr__(self, key, value):
+        self.__set(key, value)
+    def __delitem__(self, key):
+        self.__del(key)
+    def __delattr__(self, key):
+        self.__del(key)
