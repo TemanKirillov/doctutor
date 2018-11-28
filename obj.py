@@ -8,14 +8,29 @@ __all__ = ['Attrs', 'BlockOperators', 'Class', 'Example', 'Except', 'Exceptions'
 class I:
     from collections import namedtuple
     from collections import UserList
+    from mycollections import DictAttr
+    from itertools import repeat
 
-class Obj:
+class Obj(I.DictAttr):
     ''' Базовый класс всех объектов модуля'''
+    _fields = ()
 
-class Param(I.namedtuple('_Param', 'name kind default desc'), Obj):
+    def __init__(self, *args, **kwargs):
+        self._type = self.__class__.__name__
+        self.update(zip(self._fields, I.repeat('')))
+        super().__init__(*args, **kwargs)
+
+    @classmethod
+    def from_iterable(cls, iterable):
+        instance = cls()
+        instance.update(zip(cls._fields, iterable))
+        return instance
+        
+class Param(Obj):
     ''' Класс представления информации о параметре функции. '''
+    _fields = ('name', 'kind', 'default', 'desc')
 
-class Params(I.UserList, Obj):
+class Params(Obj):
     ''' Класс представления параметров'''
 
 class Return(I.namedtuple('_Return', 'desc'), Obj):

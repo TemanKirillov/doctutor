@@ -8,15 +8,26 @@ class I:
 
 r = I.Repr()
 
+class Test_Obj(I.unittest.TestCase):    
+    def test(self):  
+        o = I.obj.Obj()
+        self.assertEqual(o._type, 'Obj')
+        o.attr = 'test'
+        self.assertEqual(o['attr'], 'test')
+        o2 = I.obj.Obj([('a', '1'), ('b', '2')])
+        self.assertEqual(o2.a, '1')
+        self.assertEqual(o2._type, 'Obj')
+
+
 class Test_Param(I.unittest.TestCase):    
     def test(self):  
-        obj = I.obj.Param('parameter', 'TYPE', repr('abc'), 'My parameter for test')
+        obj = I.obj.Param.from_iterable(('parameter', 'TYPE', repr('abc'), 'My parameter for test'))
         res = r.Param(obj)
         print(res)
         
 class Test_Params(I.unittest.TestCase):    
     def test(self):  
-        obj = I.obj.Params(('Описание параметра 1', 'Описание параметра 2'))
+        obj = I.obj.Params([('a', 'Описание параметра a'), ('b', 'Описание параметра b')])
         res = r.Params(obj)
         print(res)
 

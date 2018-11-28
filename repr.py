@@ -90,7 +90,7 @@ class Repr:
 
     def Param(self, obj):
         ''' Описание параметра'''
-        name, kind, default, desc = obj
+        _type, name, kind, default, desc = obj.values()
         name_def = name + '=' + default if default else name
         desc = desc if desc else self.DESC_DEFAULT
         res = '\n'.join( 
@@ -101,7 +101,7 @@ class Repr:
 
     def Params(self, obj) -> 'str instance':
         ''' Возвращает текст описания параметров '''
-        res = '\n'.join(obj)
+        res = '\n'.join(obj.values())
         if res:
             pass
         else:
