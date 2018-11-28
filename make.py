@@ -5,23 +5,21 @@
 class I:
     import inspect
     import obj
+    from mycollections import DictAttr
 
 class Make:
     def Params(self, obj):
-        res = list()
+        params = I.DictAttr()
         sign = I.inspect.signature(obj)
         for name, param in sign.parameters.items():
-            kind = str(param.kind)
-            if param.default == I.inspect._empty:
-                default = ''
-            else:
-                default = repr(param.default)
-            if param.annotation == I.inspect._empty:
-                anno = ''
-            else:
-                anno = str(param.annotation)
-            res.append(I.obj.Param(name, kind, default, anno))
-        return I.obj.Params(res)
+            res = I.DictAttr.fromkeys(['name', 'kind', 'default', 'desc'], '')
+            res.kind = str(param.kind)
+            if param.default != I.inspect._empty:
+                res.default = repr(param.default)
+            if param.annotation != I.inspect._empty:
+                res.desc = str(param.annotation)
+            params[name] = res
+        return params
     
     def Return(self, obj):
         sign = I.inspect.signature(obj)

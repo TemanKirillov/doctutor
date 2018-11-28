@@ -19,7 +19,7 @@ def func2(a, b = 1, c: 'param C' = 10):
 class Test_Param(I.unittest.TestCase):    
     def test(self):  
         obj = m.Params(func)
-        res = r.Param(obj[0])
+        res = r.Param(obj.a)
         print(res)
 
 class Test_Params(I.unittest.TestCase):    
