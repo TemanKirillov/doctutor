@@ -46,16 +46,6 @@ class Test_Return(I.unittest.TestCase):
         res = I.disp.recursive(obj)
         print(res)
 
-class Test_Parents(I.unittest.TestCase):    
-    def test(self):
-        obj = m.Parents(I.abc.Mapping)
-        res = I.disp.recursive(obj)
-        print(res)
-        #test builtin function
-        obj = m.Parents(hex)
-        res = I.disp.recursive(obj)
-        print(res)
-
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)

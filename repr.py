@@ -90,7 +90,7 @@ class Repr:
 
     def Param(self, obj):
         ''' Описание параметра'''
-        _type, name, kind, default, desc = obj.values()
+        name, kind, default, desc = obj.name, obj.kind, obj.default, obj.desc
         name_def = name + '=' + default if default else name
         desc = desc if desc else self.DESC_DEFAULT
         res = '\n'.join( 
@@ -101,7 +101,7 @@ class Repr:
 
     def Params(self, obj) -> 'str instance':
         ''' Возвращает текст описания параметров '''
-        res = '\n'.join(obj.values())
+        res = '\n'.join(iter(obj))
         if res:
             pass
         else:
@@ -112,7 +112,7 @@ class Repr:
 
     def Return(self, obj):
         ''' Описание возвращаемого значения'''
-        desc, = obj
+        desc = obj.desc
         if desc:
             pass
         else:
@@ -120,40 +120,13 @@ class Repr:
         res = '\n'.join((self.RETURN, add_tab(desc)))
         return res
 
-    def Example(self, obj):
-        ''' Возвращает отформатированный текст примера'''
-        desc, = obj
-        res = '\n'.join((self.EXAMPLE, add_tab(desc)))
-        return res
-
-    def Except(self, obj): 
-        ''' Представление экземпляра mydoc.Except'''
-        #поля name desc example
-        name, desc, example, = obj
-        res = []
-        res.append(name)
-        if desc:
-            res.append(add_tab(desc))
-        res.append(add_tab(example))
-        res = '\n'.join(res)
-        return res
-
-    def Exceptions(self, obj):
-        ''' Представление исключений '''
-        res = '\n'.join(obj)
-        if res:
-            pass
-        else:
-            res = self.NONE
-
-        res = '\n'.join((self.EXCEPTIONS, add_tab(res)))
-        return res
-
     def Func(self, obj):
         ''' Возвращает отформатированный текст функции'''
         
         (name, sign, doc, params,
-        return_, example, exceptions,) = obj 
+        return_, example, exceptions,) = (
+        obj.name, obj.sign, obj.doc, obj.params, 
+        obj.return_, obj.example, obj.exceptions,)
 
         name_sign = name + sign
         res = [doc]
@@ -161,85 +134,3 @@ class Repr:
         res = '\n\n'.join(res)
         res = '\n'.join((name_sign, add_tab(res)))
         return res
-
-    def Parents(self, obj):
-        ''' Возвращает текст, который соответствует представлению предков'''
-        res = '\n'.join(obj)
-        if res:
-            pass
-        else:
-            res = self.NONE
-
-        res = '\n'.join((self.PARENTS, add_tab(res)))
-        return res
-
-    def BlockOperators(self, obj):
-        ''' Представляет совокупность операторов, как одно целое '''
-        get_column = lambda iterable: 2 if len(iterable) <= 10 else 3
-        obj = list(obj)
-        columns = get_column(obj)
-        res = to_columns(obj, columns)
-
-        if res:
-            return res
-        else:
-            return self.NONE
-
-    def GroupOperators(self, obj):
-        ''' Представляет операторы вместе с именем класса-владельца'''
-        owner, operators = obj
-        if operators:
-            pass
-        else:
-            operators = self.NONE
-        res = '\n'.join((owner, add_tab(operators)))
-        return res
-
-    def Operators(self, obj):
-        ''' Возвращает текст, который представляет операторы класса. '''
-        obj = list(obj)
-        operators_own = obj.pop(0)
-        res = []
-        res.append(self.OPERATORS)
-        res.append(add_tab(self.OPERATORS_OWN))
-        if operators_own:
-            res.append(add_tab(operators_own, 2))
-        else:
-            res.append(add_tab(self.NONE, 2))
-        res.append('')
-        res.append(add_tab(self.OPERATORS_PARENT))
-        if obj:
-            loc_add_tab = lambda x: add_tab(x,2)
-            res.extend(map(loc_add_tab, obj))
-        else:
-            res.append(add_tab(self.NONE, 2))
-        res = '\n'.join(res)
-        return res
-
-    def Attrs(self, obj):
-        ''' Представление последовательности атрибутов '''
-        res = '\n\n'.join(obj)
-        return res
-
-    def GroupAttrs(self, obj):
-        ''' Представление группы атрибутов '''
-        name, attrs = obj
-        if not attrs:
-            attrs = self.NONE
-        res = '\n'.join((name, add_tab(attrs)))
-        return res
-
-    def Class(self, obj):
-        ''' Представление класса '''
-        name, doc, parents, init, operators, attrs = obj
-        res = '\n'.join(obj[1:])
-        res = '\n'.join((name, add_tab(res)))
-        return res
-
-    def Module(self, obj):
-        ''' Представление модуля '''
-        name, doc, attrs = obj
-        res = '\n\n'.join(obj[1:])
-        res = '\n'.join((name, add_tab(res)))
-        return res
-

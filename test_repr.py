@@ -35,9 +35,38 @@ class Test_to_columns(I.unittest.TestCase):
         text = I.to_columns([], 4)
         print(text)
 
+r = I.Repr()
+
 class Test_Repr(I.unittest.TestCase):
+    class Param1:
+        name = 'parameter' 
+        kind = 'TYPE'
+        default = repr('abc')
+        desc = 'My parameter for test'
+
+    class Param2:
+        name = 'parameter' 
+        kind = 'TYPE'
+        default = ''
+        desc = ''
+
+    Params1 = ['Описание параметра 1', 'Описание параметра 2']
+
+    Params2 = []
+
+    class Return1:
+        desc = 'None'
+
+    class Func1:
+        name = 'hex'
+        sign = '(number)'
+        doc = 'Hexadecimal repr' 
+        params = 'number'
+        return_ = 'string instance'
+        example = '<Пример>'
+        exceptions = '<Исключения>'
+
     def test_Default(self):
-        r = I.Repr()
         default = ('name', 'val', 'name for test')
         res = r.Default(default)
         print(res)
@@ -46,136 +75,25 @@ class Test_Repr(I.unittest.TestCase):
         print(res)
 
     def test_Param(self):
-        r = I.Repr()
-        obj = ('parameter', 'TYPE', repr('abc'), 'My parameter for test')
-        res = r.Param(obj)
+        res = r.Param(self.Param1)
         print(res)
         #без значения по умолчанию и описания
-        obj = ('parameter', 'TYPE', '', '')
-        res = r.Param(obj)
+        res = r.Param(self.Param2)
         print(res)
 
     def test_Params(self):
-        r = I.Repr()
-        obj = ('Описание параметра 1', 'Описание параметра 2')
-        res = r.Params(obj)
+        res = r.Params(self.Params1)
         print(res)
         #пустой список
-        obj = []
-        res = r.Params(obj)
+        res = r.Params(self.Params2)
         print(res)
 
     def test_Return(self):
-        r = I.Repr()
-        obj = ('None',)
-        res = r.Return(obj)
-        print(res)
-
-    def test_Example(self):
-        r = I.Repr()
-        obj = ('<Example>',)
-        res = r.Example(obj)
-        print(res)
-
-    def test_Except(self):
-        r = I.Repr()
-        obj = ('RuntimeError', 'Попытка операции на закрытом соединении.', '<Code>')
-        res = r.Except(obj)
-        print(res)
-
-    def test_Exceptions(self):
-        r = I.Repr()
-        obj = ('Описание исключения 1', 'Описание исключения 2')
-        res = r.Exceptions(obj)
-        print(res)
-        #пустой список
-        obj = []
-        res = r.Exceptions(obj)
+        res = r.Return(self.Return1)
         print(res)
 
     def test_Func(self):
-        r = I.Repr()
-        obj = ('hex', '(number)', 'Hexadecimal repr', 
-               'number', 'string instance', '<Пример>', '<Исключения>')
-        res = r.Func(obj)
-        print(res)
-
-    def test_Parents(self):
-        r = I.Repr()
-        obj = ('Описание родителя 1', 'Описание родителя 2')
-        res = r.Parents(obj)
-        print(res)
-        #пустой список
-        obj = []
-        res = r.Parents(obj)
-        print(res)
-
-    def test_BlockOperators(self):
-        r = I.Repr()
-        obj = ('obj + other', '__dunder__', 'abc')
-        res = r.BlockOperators(obj)
-        print(res)
-        #длинный список
-        obj = range(0, 100)
-        res = r.BlockOperators(obj)
-        print(res)
-
-    def test_GroupOperators(self):
-        r = I.Repr()
-        obj = ('string.Template', '__dunder__\nabc')
-        res = r.GroupOperators(obj)
-        print(res)
-        #пустой список
-        obj = ['string.Template', '']
-        res = r.GroupOperators(obj)
-        print(res)
-
-    def test_Operators(self):
-        r = I.Repr()
-        obj = ( '__dunder__\nabc', '<Операторы родителя 1>', '<Операторы родителя 2>')
-        res = r.Operators(obj)
-        print(res)
-        #пустой список собственных операторов
-        obj = ['', '<Операторы родителя 1>' ]
-        res = r.Operators(obj)
-        print(res)
-        #нет операторов
-        obj = ['']
-        res = r.Operators(obj)
-        print(res)
-
-    def testAttrs(self):
-        r = I.Repr()
-        obj = ('<Атрибут 1>', '<Атрибут 2>')
-        res = r.Attrs(obj)
-        print(res)
-        #пустой список
-        obj = []
-        res = r.Attrs(obj)
-        print(res)
-
-    def test_GroupAttrs(self):
-        r = I.Repr()
-        obj = ('IMPORTED', '<Атрибут 1>')
-        res = r.GroupAttrs(obj)
-        print(res)
-        #пустой список
-        obj = ('IMPORTED', '')
-        res = r.GroupAttrs(obj)
-        print(res)
-
-    def test_Class(self):
-        r = I.Repr()
-        obj = ('string.Template', 'A string class', 
-               '<Parents>', '<init block>', '<Operators>', '<Attributes>')
-        res = r.Class(obj)
-        print(res)
-
-    def test_Module(self):
-        r = I.Repr()
-        obj = ('string', 'A collection of string...', 
-               '<Attributes>')
-        res = r.Module(obj)
+        res = r.Func(self.Func1)
         print(res)
 
 if __name__ == '__main__':

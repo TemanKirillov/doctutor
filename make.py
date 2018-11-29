@@ -9,10 +9,10 @@ class I:
 
 class Make:
     def Params(self, obj):
-        params = I.DictAttr()
+        params = I.obj.Params()
         sign = I.inspect.signature(obj)
         for name, param in sign.parameters.items():
-            res = I.DictAttr.fromkeys(['name', 'kind', 'default', 'desc'], '')
+            res = I.obj.Param()
             res.kind = str(param.kind)
             if param.default != I.inspect._empty:
                 res.default = repr(param.default)
@@ -22,19 +22,8 @@ class Make:
         return params
     
     def Return(self, obj):
+        res = I.obj.Return()
         sign = I.inspect.signature(obj)
-        if sign.return_annotation == I.inspect._empty:
-            res = ''
-        else:
-            res = repr(sign.return_annotation)
-        return I.obj.Return(res)
-
-    def Parents(self, obj):
-        try:
-            return I.obj.Parents(repr(item) for item in I.inspect.getmro(obj)[1:])
-        except AttributeError:
-            return I.obj.Parents()
-
-        
-    
-
+        if sign.return_annotation != I.inspect._empty:
+            res.desc = repr(sign.return_annotation)
+        return res
