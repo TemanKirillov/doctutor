@@ -28,3 +28,14 @@ class Make:
         if sign.return_annotation != I.inspect._empty:
             res.desc = repr(sign.return_annotation)
         return res
+
+    def Func(self, obj):
+        res = I.obj.Func()
+        res.name = obj.__name__
+        res.sign = str(I.inspect.signature(obj))
+        res.doc = I.inspect.getdoc(obj)
+        res.params = self.Params(obj)
+        res.return_ = self.Return(obj)
+        return res
+        
+
