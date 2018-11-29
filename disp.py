@@ -7,6 +7,7 @@ class I:
     from functools import singledispatch
     import repr
     import obj
+    import copy
 
 def construct_dispatch(objs, reprobj):
     ''' Строит диспетчер для объектов objs с использованием методов объекта reprobj (repr.Repr). '''
@@ -30,16 +31,12 @@ def default():
 def recursive(obj):
     ''' Рекурсивно обходит объект, отправляя вложенные объекты на представление'''
     disp = default()
+    obj = I.copy.deepcopy(obj)
     loc_isinstance = lambda obj: isinstance(obj, I.obj.Obj)
     if loc_isinstance: # если это объект для представления
-        if any(map(loc_isinstance, obj)): # если есть вложенные объекты для представления
-            cls = obj.__class__
-            iterable = []
-            for item in obj:
-                if loc_isinstance(item):
-                    iterable.append(recursive(item))
-                else:
-                    iterable.append(item)
-            return disp(cls.from_iterable(iterable))
+        for key, value in obj.items():
+            if loc_isinstance(value):
+                obj[key] = recursive(value)
+        return disp(obj)
 
     return disp(obj)
