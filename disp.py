@@ -40,6 +40,6 @@ def recursive(obj):
                     iterable.append(recursive(item))
                 else:
                     iterable.append(item)
-            return disp(cls(iterable))
+            return disp(cls.from_iterable(iterable))
 
     return disp(obj)

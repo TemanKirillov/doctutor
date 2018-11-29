@@ -75,17 +75,7 @@ class Repr:
     
     def Default(self, obj):
         ''' Описание по умолчанию'''
-        try:
-            name, *other = obj
-        except TypeError: #if not iterable
-            name = repr(obj)
-            other = ''
-
-        if other:
-            res = '\n\n'.join(other)
-        else:
-            res = self.DESC_DEFAULT
-        res = '\n'.join((name, add_tab(res)))
+        res = '\n'.join((repr(obj), add_tab(res)))
         return res
 
     def Param(self, obj):

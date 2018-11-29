@@ -13,6 +13,7 @@ class Make:
         sign = I.inspect.signature(obj)
         for name, param in sign.parameters.items():
             res = I.obj.Param()
+            res.name = name
             res.kind = str(param.kind)
             if param.default != I.inspect._empty:
                 res.default = repr(param.default)

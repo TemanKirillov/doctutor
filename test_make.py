@@ -5,11 +5,8 @@ class I:
     import unittest
     import obj
     import make
-    import disp
-    from repr import Repr
     import collections.abc as abc
 
-r = I.Repr()
 m = I.make.Make()
 def func(a, b = 1, c: 'param C' = 10) -> 'str':
     pass
@@ -19,32 +16,36 @@ def func2(a, b = 1, c: 'param C' = 10):
 class Test_Param(I.unittest.TestCase):    
     def test(self):  
         obj = m.Params(func)
-        res = r.Param(obj.a)
-        print(res)
+        self.assertEqual(obj.a.name, 'a')
+        self.assertEqual(obj.a.kind, 'POSITIONAL_OR_KEYWORD')
+        self.assertEqual(obj.a.default, '')
+        self.assertEqual(obj.a.desc, '')
+
 
 class Test_Params(I.unittest.TestCase):    
     def test(self):  
         obj = m.Params(func)
-        res = I.disp.recursive(obj)
-        print(res)
+        self.assertEqual(obj.b.name, 'b')
+        self.assertEqual(obj.c.default, '10')
+        self.assertEqual(obj.c.desc, 'param C')
         #test builtin function
         obj = m.Params(hex)
-        res = I.disp.recursive(obj)
-        print(res)
+        self.assertEqual(obj.number.name, 'number')
+        self.assertEqual(obj.number.kind, 'POSITIONAL_ONLY')
+        self.assertEqual(obj.number.default, '')
+        self.assertEqual(obj.number.desc, '')
+
 
 class Test_Return(I.unittest.TestCase):    
     def test(self):  
         obj = m.Return(func)
-        res = I.disp.recursive(obj)
-        print(res)
+        self.assertEqual(obj.desc, "'str'")
         #test without return annotation
         obj = m.Return(func2)
-        res = I.disp.recursive(obj)
-        print(res)
+        self.assertEqual(obj.desc, '')
         #test builtin function
         obj = m.Return(hex)
-        res = I.disp.recursive(obj)
-        print(res)
+        self.assertEqual(obj.desc, '')
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)

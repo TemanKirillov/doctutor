@@ -3,7 +3,7 @@
 
 ''' Объекты для представления модулем repr. '''
 
-__all__ = ['Attrs', 'BlockOperators', 'Class', 'Example', 'Except', 'Exceptions', 'Func', 'GroupAttrs', 'GroupOperators', 'Module', 'Operators', 'Param', 'Params', 'Parents', 'Return']
+__all__ = ['Func', 'Param', 'Params', 'Return']
 
 class I:
     from collections import namedtuple
