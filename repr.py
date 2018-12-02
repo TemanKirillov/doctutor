@@ -75,7 +75,7 @@ class Repr:
     
     def Default(self, obj):
         ''' Описание по умолчанию'''
-        res = '\n'.join((repr(obj), add_tab(res)))
+        res = '\n'.join((repr(obj), add_tab(self.DESC_DEFAULT)))
         return res
 
     def Param(self, obj):
