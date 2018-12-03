@@ -124,3 +124,9 @@ class Repr:
         res = '\n\n'.join(res)
         res = '\n'.join((name_sign, add_tab(res)))
         return res
+
+    def Attrs(self, obj):
+        ''' Представление последовательности атрибутов '''
+        res = '\n\n'.join(obj)
+        return res
+

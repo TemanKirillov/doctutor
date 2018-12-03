@@ -3,7 +3,7 @@
 
 ''' Объекты для представления модулем repr. '''
 
-__all__ = ['Func', 'Param', 'Params', 'Return']
+__all__ = ['Attrs', 'Func', 'Param', 'Params', 'Return']
 
 class I:
     from collections import namedtuple
@@ -45,5 +45,9 @@ class Return(Obj):
 class Func(Obj):
     ''' Класс представления информации о функции. '''
     _fields = ('name', 'sign', 'doc', 'params', 'return_', 'example', 'exceptions')
+
+class Attrs(Obj):
+    ''' Класс представления последовательности атрибутов'''
+
     
 

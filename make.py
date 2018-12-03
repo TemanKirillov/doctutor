@@ -37,5 +37,9 @@ class Make:
         res.params = self.Params(obj)
         res.return_ = self.Return(obj)
         return res
+
+    def Attrs(self, obj):
+        members = I.inspect.getmembers(obj)
+        return I.obj.Attrs(members)
         
 

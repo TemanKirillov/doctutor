@@ -96,6 +96,17 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Func(self.Func1)
         print(res)
 
+    def testAttrs(self):
+        r = I.Repr()
+        obj = ('<Атрибут 1>', '<Атрибут 2>')
+        res = r.Attrs(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.Attrs(obj)
+        print(res)
+
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)

@@ -103,11 +103,6 @@ class Repr:
         res = '\n'.join(res)
         return res
 
-    def Attrs(self, obj):
-        ''' Представление последовательности атрибутов '''
-        res = '\n\n'.join(obj)
-        return res
-
     def GroupAttrs(self, obj):
         ''' Представление группы атрибутов '''
         name, attrs = obj

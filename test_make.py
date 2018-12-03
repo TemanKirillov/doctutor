@@ -10,6 +10,7 @@ class I:
 m = I.make.Make()
 def func(a, b = 1, c: 'param C' = 10) -> 'str':
     pass
+func.attr = 'attribute'
 def func2(a, b = 1, c: 'param C' = 10):
     pass
 
@@ -46,6 +47,13 @@ class Test_Return(I.unittest.TestCase):
         #test builtin function
         obj = m.Return(hex)
         self.assertEqual(obj.desc, '')
+
+class Test_Attrs(I.unittest.TestCase):    
+    def test(self):  
+        obj = m.Attrs(func)
+        self.assertEqual(obj.attr, 'attribute')
+        self.assertIs(obj.__class__, func.__class__)
+
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
