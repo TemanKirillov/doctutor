@@ -26,6 +26,12 @@ class Test_DictAttr(I.unittest.TestCase):
         with self.assertRaises(KeyError):
             t['b']
 
+    def test_blacklist(self):
+        t = I.DictAttr([('a', 'A')])
+        self.assertEqual(str(t.__class__), "<class 'mycollections.DictAttr'>")
+        t.__class__ = 'string.Template'
+        self.assertEqual(t.__class__, 'string.Template')
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)
