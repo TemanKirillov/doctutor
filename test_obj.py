@@ -42,6 +42,32 @@ class Test_Func(I.unittest.TestCase):
         res = r.Func(obj)
         print(res)
 
+class Test_Attrs(I.unittest.TestCase):    
+    def test(self):  
+        obj = I.obj.Attrs([('a','<Атрибут 1>'), ('b', '<Атрибут 2>')])
+        self.assertEqual(obj.a, '<Атрибут 1>')
+        self.assertEqual(obj.b, '<Атрибут 2>')
+
+class Test_Named(I.unittest.TestCase):    
+    def test(self):  
+        obj = I.obj.Named([('name','Столица'), ('content', 'Москва')])
+        self.assertEqual(obj.name, 'Столица')
+        self.assertEqual(obj.content, 'Москва')
+
+class Test_Block(I.unittest.TestCase):    
+    def test(self):  
+        obj = I.obj.Named([('name','IMPORTED'), ('desc', 'Импортированный инстументарий'), ('content', 'Атрибуты...')])
+        self.assertEqual(obj.name, 'IMPORTED')
+        self.assertEqual(obj.desc,  'Импортированный инстументарий')
+        self.assertEqual(obj.content, 'Атрибуты...')
+
+class Test_GroupAttrs(I.unittest.TestCase):    
+    def test(self):  
+        obj = I.obj.GroupAttrs.from_iterable(('IMPORTED', '<Атрибут 1>'))
+        self.assertEqual(obj.name, 'IMPORTED')
+        self.assertEqual(obj.content,  '<Атрибут 1>')
+
+
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)
     I.unittest.main(testRunner=ttr, verbosity=2)

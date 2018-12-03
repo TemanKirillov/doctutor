@@ -32,9 +32,6 @@ class GroupOperators(I.namedtuple('_GroupOperators', 'owner operators'), Obj):
 class Operators(I.UserList, Obj):
     ''' Класс последовательности групп операторов класса'''
 
-class GroupAttrs(I.namedtuple('_GroupAttrs', 'name attrs'), Obj):
-    ''' Класс атрибутов и имени группы, в которую они входят'''
-
 class Class(I.namedtuple('_Class', 'name doc parents init operators attrs'), Obj):
     ''' Класс представления информации о классе. '''
 	

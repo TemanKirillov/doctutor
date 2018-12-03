@@ -103,14 +103,6 @@ class Repr:
         res = '\n'.join(res)
         return res
 
-    def GroupAttrs(self, obj):
-        ''' Представление группы атрибутов '''
-        name, attrs = obj
-        if not attrs:
-            attrs = self.NONE
-        res = '\n'.join((name, add_tab(attrs)))
-        return res
-
     def Class(self, obj):
         ''' Представление класса '''
         name, doc, parents, init, operators, attrs = obj

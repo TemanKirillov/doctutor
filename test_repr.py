@@ -3,6 +3,7 @@
 class I:
     'imported objects'
     import unittest
+    from collections import OrderedDict
     from repr import Repr
     from repr import add_tab
     from repr import to_columns
@@ -66,6 +67,17 @@ class Test_Repr(I.unittest.TestCase):
         example = '<Пример>'
         exceptions = '<Исключения>'
 
+    class Block1:
+        name = 'IMPORTED'
+        desc = 'Импортированный инстументарий'
+        content = 'Атрибуты...'
+
+    class Block2:
+        name = 'EMPTY'
+        desc = ''
+        content = ''
+
+
     def test_Default(self):
         default = ('name', 'val', 'name for test')
         res = r.Default(default)
@@ -97,13 +109,28 @@ class Test_Repr(I.unittest.TestCase):
         print(res)
 
     def testAttrs(self):
-        r = I.Repr()
         obj = ('<Атрибут 1>', '<Атрибут 2>')
         res = r.Attrs(obj)
         print(res)
         #пустой список
         obj = []
         res = r.Attrs(obj)
+        print(res)
+
+    def test_GroupAttrs(self):
+        obj = ('IMPORTED', '<Атрибут 1>')
+        res = r.GroupAttrs(obj)
+        print(res)
+        #пустой список
+        obj = ('IMPORTED', '')
+        res = r.GroupAttrs(obj)
+        print(res)
+
+    def test_Block(self):
+        res = r.Block(self.Block1)
+        print(res)
+        #пустой блок
+        res = r.Block(self.Block2)
         print(res)
 
 

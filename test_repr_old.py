@@ -74,16 +74,6 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Operators(obj)
         print(res)
 
-    def test_GroupAttrs(self):
-        r = I.Repr()
-        obj = ('IMPORTED', '<Атрибут 1>')
-        res = r.GroupAttrs(obj)
-        print(res)
-        #пустой список
-        obj = ('IMPORTED', '')
-        res = r.GroupAttrs(obj)
-        print(res)
-
     def test_Class(self):
         r = I.Repr()
         obj = ('string.Template', 'A string class', 

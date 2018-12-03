@@ -130,3 +130,22 @@ class Repr:
         res = '\n\n'.join(obj)
         return res
 
+    def Block(self, obj):
+        ''' Представление блока '''
+        name, desc, content = obj.name, obj.desc, obj.content
+        if not desc:
+            desc = self.DESC_DEFAULT
+        if not content:
+            content = self.NONE
+        res = '\n\n'.join((desc, content))
+        res = '\n'.join((name, add_tab(res)))
+        return res
+
+    def GroupAttrs(self, obj):
+        ''' Представление группы атрибутов '''
+        name, attrs = obj
+        if not attrs:
+            attrs = self.NONE
+        res = '\n'.join((name, add_tab(attrs)))
+        return res
+

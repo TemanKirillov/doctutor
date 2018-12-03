@@ -50,18 +50,6 @@ class Test_Operators(I.unittest.TestCase):
         res = r.Operators(obj)
         print(res)
 
-class Test_Attrs(I.unittest.TestCase):    
-    def test(self):  
-        obj = I.obj.Attrs(('<Атрибут 1>', '<Атрибут 2>'))
-        res = r.Attrs(obj)
-        print(res)
-
-class Test_GroupAttrs(I.unittest.TestCase):    
-    def test(self):  
-        obj = I.obj.GroupAttrs('IMPORTED', '<Атрибут 1>')
-        res = r.GroupAttrs(obj)
-        print(res)
-
 class Test_Class(I.unittest.TestCase):    
     def test(self):  
         obj = I.obj.Class('string.Template', 'A string class', '<Parents>', '<init block>', '<Operators>', '<Attributes>')
