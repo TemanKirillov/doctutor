@@ -130,6 +130,14 @@ class Repr:
         res = '\n\n'.join(obj)
         return res
 
+    def Named(self, obj):
+        ''' Представление именованного объекта '''
+        name, content = obj.name, obj.content
+        if not content:
+            content = self.NONE
+        res = '\n'.join((name, add_tab(content)))
+        return res
+
     def Block(self, obj):
         ''' Представление блока '''
         name, desc, content = obj.name, obj.desc, obj.content

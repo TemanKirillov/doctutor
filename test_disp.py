@@ -5,6 +5,8 @@ class I:
     import unittest
     import disp
     import obj
+    import make
+    import string
 
 disp = I.disp.default()
 
@@ -23,6 +25,13 @@ class Test(I.unittest.TestCase):
         print(I.disp.recursive(obj4))
         obj5 = I.obj.Params([('a', '<param1>'), ('b','<param2>')])
         print(I.disp.recursive(obj5))
+
+    def test_Attrs(self):
+        obj = I.make.Make().Attrs(I.string.Template)
+        for key, value in obj.items():
+            obj[key] = I.obj.GroupAttrs.from_iterable([str(key), repr(value)])
+        print(I.disp.recursive(obj))
+    
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)

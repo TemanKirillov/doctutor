@@ -77,6 +77,14 @@ class Test_Repr(I.unittest.TestCase):
         desc = ''
         content = ''
 
+    class Named1:
+        name = 'IMPORTED (Named)'
+        content = 'Атрибуты...'
+
+    class Named2:
+        name = 'EMPTY (Named)'
+        content = ''
+
 
     def test_Default(self):
         default = ('name', 'val', 'name for test')
@@ -131,6 +139,13 @@ class Test_Repr(I.unittest.TestCase):
         print(res)
         #пустой блок
         res = r.Block(self.Block2)
+        print(res)
+
+    def test_Named(self):
+        res = r.Named(self.Named1)
+        print(res)
+        #пустой блок
+        res = r.Named(self.Named2)
         print(res)
 
 
