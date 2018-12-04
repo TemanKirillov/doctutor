@@ -39,7 +39,10 @@ class GetAttrDict:
     def __getattribute__(self, key):
         if key == '_':
             return super().__getattribute__(key)
-        return self._[key]
+        try:
+            return self._[key]
+        except KeyError:
+            raise AttributeError(key)
 
     def __setattr__(self, key, value):
         if key == '_':
@@ -49,23 +52,15 @@ class GetAttrDict:
     def __delattr__(self, key):
         if key == '_':
             return super().__delattr__(key)
-        del self._[key]
+        try:
+            del self._[key]
+        except KeyError:
+            raise AttributeError(key)
         
 
 class DictAttr(I.OrderedDict):
     ''' Ключи словаря также являются его атрибутами'''
 
-    def __set(self, key, value):
-        super().__setitem__(key, value)
-        super().__setattr__(key, value)
-    def __del(self, key):
-        super().__delitem__(key)
-        super().__delattr__(key)
-    def __setitem__(self, key, value):
-        self.__set(key, value)
-    def __setattr__(self, key, value):
-        self.__set(key, value)
-    def __delitem__(self, key):
-        self.__del(key)
-    def __delattr__(self, key):
-        self.__del(key)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._ = GetAttrDict(self)
