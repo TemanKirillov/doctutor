@@ -4,6 +4,7 @@ class I:
     from collections import UserDict
     from collections import namedtuple
     from collections import OrderedDict
+    import copy
 
 def namedtuple_methods(cls):
     """ Декоратор класса, который генерируется collections.namedtuple. Добавляет новые методы."""
@@ -64,3 +65,6 @@ class DictAttr(I.OrderedDict):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._ = GetAttrDict(self)
+
+    def __deepcopy__(self, memo):
+        return self.__class__((key, I.copy.deepcopy(value)) for key, value in self.items())

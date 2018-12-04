@@ -40,42 +40,58 @@ r = I.Repr()
 
 class Test_Repr(I.unittest.TestCase):
     class Param1:
-        name = 'parameter' 
-        kind = 'TYPE'
-        default = repr('abc')
-        desc = 'My parameter for test'
+        class _:
+            name = 'parameter' 
+            kind = 'TYPE'
+            default = repr('abc')
+            desc = 'My parameter for test'
 
     class Param2:
-        name = 'parameter' 
-        kind = 'TYPE'
-        default = ''
-        desc = ''
+        class _:
+            name = 'parameter' 
+            kind = 'TYPE'
+            default = ''
+            desc = ''
 
     Params1 = ['Описание параметра 1', 'Описание параметра 2']
 
     Params2 = []
 
     class Return1:
-        desc = 'None'
+        class _:
+            desc = 'None'
 
     class Func1:
-        name = 'hex'
-        sign = '(number)'
-        doc = 'Hexadecimal repr' 
-        params = 'number'
-        return_ = 'string instance'
-        example = '<Пример>'
-        exceptions = '<Исключения>'
+        class _:
+            name = 'hex'
+            sign = '(number)'
+            doc = 'Hexadecimal repr' 
+            params = 'number'
+            return_ = 'string instance'
+            example = '<Пример>'
+            exceptions = '<Исключения>'
+
+    class Named1:
+        class _:
+            name = 'IMPORTED'
+            content = 'Атрибуты...'
+
+    class Named2:
+        class _:
+            name = 'EMPTY'
+            content = ''
 
     class Block1:
-        name = 'IMPORTED'
-        desc = 'Импортированный инстументарий'
-        content = 'Атрибуты...'
+        class _:
+            name = 'IMPORTED'
+            desc = 'Импортированный инстументарий'
+            content = 'Атрибуты...'
 
     class Block2:
-        name = 'EMPTY'
-        desc = ''
-        content = ''
+        class _:
+            name = 'EMPTY'
+            desc = ''
+            content = ''
 
 
     def test_Default(self):
@@ -115,6 +131,13 @@ class Test_Repr(I.unittest.TestCase):
         #пустой список
         obj = []
         res = r.Attrs(obj)
+        print(res)
+
+    def test_Named(self):
+        res = r.Named(self.Named1)
+        print(res)
+        #пустой 
+        res = r.Named(self.Named2)
         print(res)
 
     def test_GroupAttrs(self):

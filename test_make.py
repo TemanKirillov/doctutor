@@ -17,42 +17,42 @@ def func2(a, b = 1, c: 'param C' = 10):
 class Test_Param(I.unittest.TestCase):    
     def test(self):  
         obj = m.Params(func)
-        self.assertEqual(obj.a.name, 'a')
-        self.assertEqual(obj.a.kind, 'POSITIONAL_OR_KEYWORD')
-        self.assertEqual(obj.a.default, '')
-        self.assertEqual(obj.a.desc, '')
+        self.assertEqual(obj._.a._.name, 'a')
+        self.assertEqual(obj._.a._.kind, 'POSITIONAL_OR_KEYWORD')
+        self.assertEqual(obj._.a._.default, '')
+        self.assertEqual(obj._.a._.desc, '')
 
 
 class Test_Params(I.unittest.TestCase):    
     def test(self):  
         obj = m.Params(func)
-        self.assertEqual(obj.b.name, 'b')
-        self.assertEqual(obj.c.default, '10')
-        self.assertEqual(obj.c.desc, 'param C')
+        self.assertEqual(obj._.b._.name, 'b')
+        self.assertEqual(obj._.c._.default, '10')
+        self.assertEqual(obj._.c._.desc, 'param C')
         #test builtin function
         obj = m.Params(hex)
-        self.assertEqual(obj.number.name, 'number')
-        self.assertEqual(obj.number.kind, 'POSITIONAL_ONLY')
-        self.assertEqual(obj.number.default, '')
-        self.assertEqual(obj.number.desc, '')
+        self.assertEqual(obj._.number._.name, 'number')
+        self.assertEqual(obj._.number._.kind, 'POSITIONAL_ONLY')
+        self.assertEqual(obj._.number._.default, '')
+        self.assertEqual(obj._.number._.desc, '')
 
 
 class Test_Return(I.unittest.TestCase):    
     def test(self):  
         obj = m.Return(func)
-        self.assertEqual(obj.desc, "'str'")
+        self.assertEqual(obj._.desc, "'str'")
         #test without return annotation
         obj = m.Return(func2)
-        self.assertEqual(obj.desc, '')
+        self.assertEqual(obj._.desc, '')
         #test builtin function
         obj = m.Return(hex)
-        self.assertEqual(obj.desc, '')
+        self.assertEqual(obj._.desc, '')
 
 class Test_Attrs(I.unittest.TestCase):    
     def test(self):  
         obj = m.Attrs(func)
-        self.assertEqual(obj.attr, 'attribute')
-        self.assertIs(obj.__class__, func.__class__)
+        self.assertEqual(obj._.attr, 'attribute')
+        self.assertIs(obj._.__class__, func.__class__)
 
 
 if __name__ == '__main__':

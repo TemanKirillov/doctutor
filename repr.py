@@ -80,7 +80,7 @@ class Repr:
 
     def Param(self, obj):
         ''' Описание параметра'''
-        name, kind, default, desc = obj.name, obj.kind, obj.default, obj.desc
+        name, kind, default, desc = obj._.name, obj._.kind, obj._.default, obj._.desc
         name_def = name + '=' + default if default else name
         desc = desc if desc else self.DESC_DEFAULT
         res = '\n'.join( 
@@ -102,7 +102,7 @@ class Repr:
 
     def Return(self, obj):
         ''' Описание возвращаемого значения'''
-        desc = obj.desc
+        desc = obj._.desc
         if desc:
             pass
         else:
@@ -115,14 +115,22 @@ class Repr:
         
         (name, sign, doc, params,
         return_, example, exceptions,) = (
-        obj.name, obj.sign, obj.doc, obj.params, 
-        obj.return_, obj.example, obj.exceptions,)
+        obj._.name, obj._.sign, obj._.doc, obj._.params, 
+        obj._.return_, obj._.example, obj._.exceptions,)
 
         name_sign = name + sign
         res = [doc]
         res.extend([params, return_, example, exceptions])
         res = '\n\n'.join(res)
         res = '\n'.join((name_sign, add_tab(res)))
+        return res
+
+    def Named(self, obj):
+        ''' Представление именованного объекта '''
+        name, content = obj._.name, obj._.content
+        if not content:
+            content = self.NONE
+        res = '\n'.join((name, add_tab(content)))
         return res
 
     def Attrs(self, obj):
@@ -132,7 +140,7 @@ class Repr:
 
     def Block(self, obj):
         ''' Представление блока '''
-        name, desc, content = obj.name, obj.desc, obj.content
+        name, desc, content = obj._.name, obj._.desc, obj._.content
         if not desc:
             desc = self.DESC_DEFAULT
         if not content:
