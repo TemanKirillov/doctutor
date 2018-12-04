@@ -29,18 +29,38 @@ class DictValueList(I.UserDict):
         else:
             super().__setitem__(key, [value])
 
+class GetAttrDict:
+    ''' Реализует механизм доступа к ключам словаря, как к атрибутам '''
+    _ = None
+
+    def __init__(self, dct):
+        self._ = dct
+        
+    def __getattribute__(self, key):
+        if key == '_':
+            return super().__getattribute__(key)
+        return self._[key]
+
+    def __setattr__(self, key, value):
+        if key == '_':
+            return super().__setattr__(key, value)
+        self._[key] = value
+        
+    def __delattr__(self, key):
+        if key == '_':
+            return super().__delattr__(key)
+        del self._[key]
+        
+
 class DictAttr(I.OrderedDict):
     ''' Ключи словаря также являются его атрибутами'''
-    blacklist = ['__class__',] #особые атрибуты, которые нельзя установить в экземпляре
 
     def __set(self, key, value):
         super().__setitem__(key, value)
-        if key not in self.blacklist:
-            super().__setattr__(key, value)
+        super().__setattr__(key, value)
     def __del(self, key):
         super().__delitem__(key)
-        if key not in self.blacklist:
-            super().__delattr__(key)
+        super().__delattr__(key)
     def __setitem__(self, key, value):
         self.__set(key, value)
     def __setattr__(self, key, value):
@@ -49,9 +69,3 @@ class DictAttr(I.OrderedDict):
         self.__del(key)
     def __delattr__(self, key):
         self.__del(key)
-    def __getattribute__(self, key):
-        if key in DictAttr.blacklist and key in self:
-            return self[key]
-        else:
-            return super().__getattribute__(key)
-        
