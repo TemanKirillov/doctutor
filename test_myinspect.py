@@ -4,16 +4,17 @@ class I:
     'imported objects'
     import unittest
     import string
-    from tree import ownattr
-    from tree import any_fullmatch
-    from tree import getmembers
-    from tree import isimp
-    from tree import isinparent
-    from tree import ContextPatterns
-    from tree import getmembers_recursive
-    from tree import isdunder
-    from tree import getparent
-    from tree import getparents
+    from myinspect import ownattr
+    from myinspect import any_fullmatch
+    from myinspect import getmembers
+    from myinspect import isimp
+    from myinspect import isinparent
+    from myinspect import ContextPatterns
+    from myinspect import getmembers_recursive
+    from myinspect import isdunder
+    from myinspect import getparent
+    from myinspect import getparents
+    from myinspect import attrs_by_parents
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -165,6 +166,20 @@ class Test_getparents(I.unittest.TestCase):
         self.assertEqual(I.getparents(hex), (hex, hex.__class__, object))
         self.assertEqual(I.getparents(object), (object,))
         self.assertEqual(I.getparents(type), (type, object,))
+
+class Test_attrs_by_parents(I.unittest.TestCase):
+    def test(self):
+        class A:
+            a = 1
+        class B(A):
+            b = 1
+        C = B()
+        C.a = 2
+        dct = I.attrs_by_parents(C)
+        key_C = repr(C)
+        key_A = repr(A)
+        self.assertEqual(dct[key_C]['a'], 2)
+        self.assertEqual(dct[key_A]['__weakref__'], None)
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)

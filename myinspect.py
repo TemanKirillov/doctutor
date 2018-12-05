@@ -8,6 +8,7 @@ class I:
     import re
     from contextlib import AbstractContextManager
     import builtins
+    from collections import OrderedDict
 
 def to_short(qualname):
     ''' Преобразовать квалифицированное имя в короткое.''' 
@@ -144,6 +145,18 @@ def ownattr(name, obj):
         return not(isinparent(*args) or isimp(*args))
     yield from getmembers(name, obj, predicate)
 
+def attrs_by_parents(obj):
+    ''' Словарь Родитель-Атрибуты '''
+    parents = getparents(obj)
+    res = I.OrderedDict.fromkeys(map(repr, parents))
+    for key in res:
+        res[key] = I.OrderedDict()
+    for name, member in I.inspect.getmembers(obj):
+        parent = repr(getparent(obj, name))
+        res[parent][name] = member
+    return res
+
+    
 
 if __name__ == '__main__':
     pass
