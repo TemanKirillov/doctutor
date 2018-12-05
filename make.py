@@ -6,6 +6,7 @@ class I:
     import inspect
     import obj
     from mycollections import DictAttr
+    import myinspect
 
 class Make:
     def Params(self, obj):
@@ -41,5 +42,9 @@ class Make:
     def Attrs(self, obj):
         members = I.inspect.getmembers(obj)
         return I.obj.Attrs(members)
+        
+    def ImportedAttrs(self, obj):
+        members = I.myinspect.getmembers('', obj, I.myinspect.isimp)
+        return I.obj.ImportedAttrs(members)
         
 

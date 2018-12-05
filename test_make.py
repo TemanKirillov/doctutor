@@ -6,6 +6,7 @@ class I:
     import obj
     import make
     import collections.abc as abc
+    import string
 
 m = I.make.Make()
 def func(a, b = 1, c: 'param C' = 10) -> 'str':
@@ -53,6 +54,19 @@ class Test_Attrs(I.unittest.TestCase):
         obj = m.Attrs(func)
         self.assertEqual(obj._.attr, 'attribute')
         self.assertIs(obj._.__class__, func.__class__)
+
+class Test_ImportedAttrs(I.unittest.TestCase):    
+    def test(self):  
+        class T:
+            import string
+
+        obj = m.ImportedAttrs(I.string)
+        self.assertEqual(list(obj.keys()), ['_type', '_ChainMap', '_re', '_string'])
+        self.assertEqual(obj._._re, I.string._re)
+        self.assertEqual(obj._._ChainMap, I.string._ChainMap)
+        obj = m.ImportedAttrs(T)
+        self.assertEqual(list(obj.keys()), ['_type', 'string'])
+        self.assertEqual(obj._.string, I.string)
 
 
 if __name__ == '__main__':

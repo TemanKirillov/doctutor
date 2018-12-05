@@ -16,9 +16,9 @@ class Obj(I.DictAttr):
     _fields = ()
 
     def __init__(self, *args, **kwargs):
+        self['_type'] = self.__class__.__name__ #_type идёт первым ключом
         self.update(zip(self._fields, I.repeat(''))) #сначала нужно заполнить пустыми значениями
         super().__init__(*args, **kwargs)
-        self._._type = self.__class__.__name__
 
     @classmethod
     def from_iterable(cls, iterable):
@@ -59,4 +59,7 @@ class Block(Obj):
 
 class GroupAttrs(Named):
     ''' Класс атрибутов и имени группы, в которую они входят'''
+
+class ImportedAttrs(Attrs):
+    ''' Класс импортированных атрибутов'''
 
