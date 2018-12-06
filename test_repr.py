@@ -133,6 +133,15 @@ class Test_Repr(I.unittest.TestCase):
         res = r.Attrs(obj)
         print(res)
 
+    def testAttrsAll(self):
+        obj = ('<Группа Атрибутов 1>', '<Группа Атрибутов 2>')
+        res = r.AttrsAll(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.AttrsAll(obj)
+        print(res)
+
     def test_Named(self):
         res = r.Named(self.Named1)
         print(res)

@@ -69,9 +69,11 @@ class Repr:
     EXAMPLE = 'Пример'
     EXCEPTIONS = 'Исключения'
     PARENTS = 'Предки'
-    OPERATORS = 'Поддержка операторов и протоколов'
+    OPERATORS = 'Операторы и протоколы'
     OPERATORS_OWN = 'Собственная реализация'
     OPERATORS_PARENT = 'Наследована от'
+    ATTRS = 'Атрибуты'
+
     
     def Default(self, obj):
         ''' Описание по умолчанию'''
@@ -137,6 +139,13 @@ class Repr:
         ''' Представление последовательности атрибутов '''
         res = '\n\n'.join(obj)
         return res
+
+    def AttrsAll(self, obj):
+        ''' Представление всех атрибутов объекта. Состоит из групп атрибутов '''
+        res = '\n\n'.join(obj)
+        if not res:
+            res = self.NONE
+        return '\n'.join([self.ATTRS, add_tab(res)])
 
     def Block(self, obj):
         ''' Представление блока '''
