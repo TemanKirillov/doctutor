@@ -73,6 +73,9 @@ class Repr:
     OPERATORS_OWN = 'Собственная реализация'
     OPERATORS_PARENT = 'Наследована от'
     ATTRS = 'Атрибуты'
+    IMPORTED = 'Импорт'
+    INTERNAL = 'Внутренний'
+    OWN = 'Собственная реализация'
 
     
     def Default(self, obj):
@@ -139,6 +142,25 @@ class Repr:
         ''' Представление последовательности атрибутов '''
         res = '\n\n'.join(obj)
         return res
+
+    def _GroupAttrs(self, obj, name):
+        res = self.Attrs(obj)
+        if not res:
+            res = self.NONE
+        return '\n'.join([name, add_tab(res)])
+        return res
+        
+    def ImportedAttrs(self, obj):
+        ''' Представление импортированный атрибутов '''
+        return self._GroupAttrs(obj, self.IMPORTED)
+
+    def InternalAttrs(self, obj):
+        ''' Представление внутренних _* атрибутов '''
+        return self._GroupAttrs(obj, self.INTERNAL)
+
+    def OwnAttrs(self, obj):
+        ''' Представление собственных атрибутов '''
+        return self._GroupAttrs(obj, self.OWN)
 
     def AttrsAll(self, obj):
         ''' Представление всех атрибутов объекта. Состоит из групп атрибутов '''

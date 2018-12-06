@@ -73,23 +73,23 @@ class Test_Repr(I.unittest.TestCase):
 
     class Named1:
         class _:
-            name = 'IMPORTED'
+            name = 'IMPORTED(Named1)'
             content = 'Атрибуты...'
 
     class Named2:
         class _:
-            name = 'EMPTY'
+            name = 'EMPTY(Named2)'
             content = ''
 
     class Block1:
         class _:
-            name = 'IMPORTED'
+            name = 'IMPORTED(Block1)'
             desc = 'Импортированный инстументарий'
             content = 'Атрибуты...'
 
     class Block2:
         class _:
-            name = 'EMPTY'
+            name = 'EMPTY(Block2)'
             desc = ''
             content = ''
 
@@ -131,6 +131,33 @@ class Test_Repr(I.unittest.TestCase):
         #пустой список
         obj = []
         res = r.Attrs(obj)
+        print(res)
+
+    def testImportedAttrs(self):
+        obj = ('<Атрибут 1>', '<Атрибут 2>')
+        res = r.ImportedAttrs(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.ImportedAttrs(obj)
+        print(res)
+
+    def testInternalAttrs(self):
+        obj = ('<Атрибут 1>', '<Атрибут 2>')
+        res = r.InternalAttrs(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.InternalAttrs(obj)
+        print(res)
+
+    def testOwnAttrs(self):
+        obj = ('<Атрибут 1>', '<Атрибут 2>')
+        res = r.OwnAttrs(obj)
+        print(res)
+        #пустой список
+        obj = []
+        res = r.OwnAttrs(obj)
         print(res)
 
     def testAttrsAll(self):
