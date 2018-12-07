@@ -4,6 +4,7 @@ class I:
     'imported objects'
     import unittest
     import string
+    import pprint
     from myinspect import ownattr
     from myinspect import any_fullmatch
     from myinspect import getmembers
@@ -15,6 +16,7 @@ class I:
     from myinspect import getparent
     from myinspect import getparents
     from myinspect import attrs_by_parents
+    from myinspect import mark_attrs
 
 class Test_ownattr(I.unittest.TestCase):
 
@@ -180,6 +182,24 @@ class Test_attrs_by_parents(I.unittest.TestCase):
         key_A = repr(A)
         self.assertEqual(dct[key_C]['a'], 2)
         self.assertEqual(dct[key_A]['__weakref__'], None)
+
+class Test_mark_attrs(I.unittest.TestCase):
+    def test(self):
+        class A:
+            a = 1
+        class B(A):
+            b = 1
+        C = B()
+        C.a = 2
+        import string
+        C.string = string 
+        dct = I.mark_attrs(C)
+        self.assertTrue(dct['__le__'].Is('parent'))
+        self.assertTrue(dct['__le__'].Is('magic'))
+        self.assertTrue(dct['__le__'].Is('internal'))
+        self.assertTrue(dct['__le__'].Is('nonimported'))
+        self.assertTrue(dct['a'].Is('nonparent'))
+        self.assertTrue(dct['string'].Is('imported'))
 
 if __name__ == '__main__':
     ttr = I.unittest.TextTestRunner(tb_locals=True)

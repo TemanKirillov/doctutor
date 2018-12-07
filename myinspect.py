@@ -9,6 +9,8 @@ class I:
     from contextlib import AbstractContextManager
     import builtins
     from collections import OrderedDict
+    import mark
+    import magic
 
 def to_short(qualname):
     ''' Преобразовать квалифицированное имя в короткое.''' 

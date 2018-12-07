@@ -1,6 +1,8 @@
 #!/usr/bin/python3 
 ''' Модуль для работы с "магическими" методами. '''
 
+import re
+
 def convert(name_method, name_class):
     ''' Конвертирует строку с именем метода в строку с оператором. '''    
     iden = re.match('_*\w{,1}', name_class).group().casefold()
@@ -93,6 +95,9 @@ def convert(name_method, name_class):
              }
     
     return dict_.get(name_method, name_method)
+
+def ismagic(name):
+    return name != convert(name, '')
 
 def convert_all(names, name_class):
     return [convert(name, name_class) for name in names]
