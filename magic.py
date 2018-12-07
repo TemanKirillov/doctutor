@@ -94,5 +94,9 @@ def convert(name_method, name_class):
     
     return dict_.get(name_method, name_method)
 
+def is_magic(name):
+    ''' Входит ли имя в список "магических"'''
+    return convert(name) != name
+
 def convert_all(names, name_class):
     return [convert(name, name_class) for name in names]

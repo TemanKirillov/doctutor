@@ -156,6 +156,29 @@ def attrs_by_parents(obj):
         res[parent][name] = member
     return res
 
+def by_category(obj):
+    ''' Разбиение атрибутов по категориям'''
+    by_parents = attrs_by_parents(obj)
+    attrsall = I.OrderedDict((
+        ('main', I.OrderedDict([
+            ('nonparent', I.OrderedDict([
+                ('own', I.OrderedDict([
+                    ('main', I.OrderedDict()),
+                    ('internal', I.OrderedDict())])),
+                ('imported', I.OrderedDict())
+                                       ])),
+            ('parent', I.OrderedDict()),
+                              ])), 
+        ('magic', I.OrderedDict([
+            ('nonparent', I.OrderedDict([
+                ('own', I.OrderedDict()),
+                ('imported', I.OrderedDict())
+                                        ])),
+            ('parent', I.OrderedDict())
+                              ]))
+                            ))
+    non_parent = next(by_parents.values())
+
     
 
 if __name__ == '__main__':
