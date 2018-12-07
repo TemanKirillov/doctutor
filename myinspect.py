@@ -156,7 +156,28 @@ def attrs_by_parents(obj):
         res[parent][name] = member
     return res
 
-    
+def mark_attrs(obj):
+    res = I.OrderedDict()
+    for name, member in I.inspect.getmembers(obj):
+        marked = I.mark.Marked(member)
+        if I.magic.ismagic(name):
+            marked.mark('magic')
+        else:
+            marked.mark('nonmagic')
+        if getparent(obj, name) is obj:
+            marked.mark('nonparent')
+        else:
+            marked.mark('parent')
+        if isimp('', obj, name):
+            marked.mark('imported')
+        else:
+            marked.mark('nonimported')
+        if name.startswith('_'):
+            marked.mark('internal')
+        else:
+            marked.mark('noninternal')
+        res[name] = marked
+    return res
 
 if __name__ == '__main__':
     pass
