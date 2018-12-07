@@ -3,7 +3,7 @@
 
 ''' Объекты для представления модулем repr. '''
 
-__all__ = ['Attrs', 'Block', 'Func', 'GroupAttrs', 'Named', 'Param', 'Params', 'Return']
+__all__ = ['Attrs', 'AttrsAll', 'Block', 'Func', 'GroupAttrs', 'ImportedAttrs', 'InternalAttrs', 'Named', 'OwnAttrs',  'Param', 'Params', 'Return']
 
 class I:
     from collections import namedtuple
@@ -49,6 +49,18 @@ class Func(Obj):
 class Attrs(Obj):
     ''' Класс представления последовательности атрибутов'''
 
+class ImportedAttrs(Attrs):
+    ''' Класс импортированных атрибутов'''
+
+class InternalAttrs(Attrs):
+    ''' Класс внутренних атрибутов'''
+
+class OwnAttrs(Attrs):
+    ''' Класс собственных уникальных атрибутов'''
+
+class AttrsAll(Obj):
+    ''' Класс представления последовательности групп атрибутов'''
+
 class Named(Obj):
     ''' Класс чего-то именованного. '''
     _fields = ('name', 'content')
@@ -59,7 +71,4 @@ class Block(Obj):
 
 class GroupAttrs(Named):
     ''' Класс атрибутов и имени группы, в которую они входят'''
-
-class ImportedAttrs(Attrs):
-    ''' Класс импортированных атрибутов'''
 

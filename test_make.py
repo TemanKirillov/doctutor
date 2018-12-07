@@ -55,6 +55,11 @@ class Test_Attrs(I.unittest.TestCase):
         self.assertEqual(obj._.attr, 'attribute')
         self.assertIs(obj._.__class__, func.__class__)
 
+class Test_AttrsAll(I.unittest.TestCase):    
+    def test(self):  
+        obj = m.AttrsAll(func)
+        [print(key, ':', value) for key, value in obj.items()]
+
 class Test_ImportedAttrs(I.unittest.TestCase):    
     def test(self):  
         class T:
