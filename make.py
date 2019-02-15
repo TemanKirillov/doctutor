@@ -9,27 +9,6 @@ class I:
     import myinspect
 
 class Make:
-    def Params(self, obj):
-        params = I.obj.Params()
-        sign = I.inspect.signature(obj)
-        for name, param in sign.parameters.items():
-            res = I.obj.Param()
-            res._.name = name
-            res._.kind = str(param.kind)
-            if param.default != I.inspect._empty:
-                res._.default = repr(param.default)
-            if param.annotation != I.inspect._empty:
-                res._.desc = str(param.annotation)
-            params[name] = res
-        return params
-    
-    def Return(self, obj):
-        res = I.obj.Return()
-        sign = I.inspect.signature(obj)
-        if sign.return_annotation != I.inspect._empty:
-            res._.desc = repr(sign.return_annotation)
-        return res
-
     def Func(self, obj):
         res = I.obj.Func()
         res._.name = obj.__name__
