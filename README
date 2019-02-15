@@ -105,6 +105,48 @@
                 }
             }
 
+        контент - магические методы
+            {'magics': {
+                'type': 'Magics',
+                'content': [
+                    '__lt__',
+                    '__le__',
+                    '__len__',
+                    '__contains__'
+                    ]
+                }
+            }
+
+        контент - группа магических методов
+            {'Template': {
+                'type': 'GroupMagics',
+                'content': {
+                    'name': 'Template',
+                    'magic': {
+                        'type': 'Magics',
+                        'content': [...]
+                    }
+                }
+            }
+
+        контент - все магические методы
+            {'magic_all': {
+                'type': 'MagicAll',
+                'content': {
+                    'own': {
+                        'type': 'Magics',
+                        'content': [...]
+                        },
+                    'Template': {
+                        'type': 'GroupMagics',
+                        'content': {...}
+                        }
+                    }
+                }
+            }
+
+
+
 Представление объектов в строковом виде (repr.py)
     Основа модуля - класс Repr, который включает методы представления объектов в виде строк. 
     Каждый метод придерживается соглашения: 
